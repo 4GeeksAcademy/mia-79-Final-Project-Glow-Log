@@ -1,7 +1,7 @@
 // src/pages/AddProduct.jsx
 import React, { useState } from "react";
 
-const API_URL = "https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github.dev/"; // WE need to update the API libk once we have it
+const API_URL = "http://localhost:3001/api/products"; // WE need to update the API libk once we have it
 
 export default function AddProduct() {
   const [photo, setPhoto] = useState(null);
