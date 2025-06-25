@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { NavBar } from "../components/Navbar.jsx";
 
 // This component is used to display the profile page of the user.
 // Coppied from the Home Component
@@ -36,12 +37,22 @@ export const Profile = () => {
 	// }, [])
 
 	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Profile Page</h1>
-			{/* <p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p> */}
-			{/* <div className="alert alert-info">
+		<>
+			<NavBar />
+			<div className="text-center mt-5">
+				<h1 className="display-4">Profile Page</h1>
+				<form>
+					<input type="text" name="name" id="name" placeholder="Enter your name" />
+					<input type="email" name="email" id="email" placeholder="Enter email address" />
+					<input type="password" name="password" id="password" placeholder="Enter password" />
+					<input type="file" name="" id="" />
+
+					<div className="button-wrap">
+						<button type="submit">Save</button>
+						<button>Exit</button>
+					</div>
+				</form>
+				{/* <div className="alert alert-info">
 				{store.message ? (
 					<span>{store.message}</span>
 				) : (
@@ -50,6 +61,7 @@ export const Profile = () => {
 					</span>
 				)}
 			</div> */}
-		</div>
+			</div>
+		</>
 	);
 }; 
