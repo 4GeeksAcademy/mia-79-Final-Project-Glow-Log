@@ -43,12 +43,14 @@ export const Profile = () => {
 				<h1 className="display-4">Profile Page</h1>
 				<form>
 					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">Email address</label>
-						<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+						<label for="FormControlName" class="form-label">Name</label>
+						<input type="text" class="form-control" id="FormControlName" placeholder="Enter a Name" />
+						<label for="exampleFormControlemail" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleFormControlemail" placeholder="name@example.com" />
 					</div>
 					<div class="mb-3">
-						<label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+						<label for="FormControlPassword" class="form-label">Password</label>
+						<input class="form-control" id="FormControlPassword" rows="3" />
 					</div>
 
 					<div className="button-wrap">
