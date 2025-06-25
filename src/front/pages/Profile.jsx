@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { NavBar } from "../components/Navbar.jsx";
 
 // This component is used to display the profile page of the user.
 // Coppied from the Home Component
@@ -36,12 +37,28 @@ export const Profile = () => {
 	// }, [])
 
 	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Profile Page</h1>
-			{/* <p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p> */}
-			{/* <div className="alert alert-info">
+		<>
+			<NavBar />
+			<div className="text-center mt-5">
+				<h1 className="display-4">Profile Page</h1>
+				<form>
+					<div class="mb-3">
+						<label for="FormControlName" class="form-label">Name</label>
+						<input type="text" class="form-control" id="FormControlName" placeholder="Enter a Name" />
+						<label for="exampleFormControlemail" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleFormControlemail" placeholder="name@example.com" />
+					</div>
+					<div class="mb-3">
+						<label for="FormControlPassword" class="form-label">Password</label>
+						<input class="form-control" id="FormControlPassword" rows="3" />
+					</div>
+
+					<div className="button-wrap">
+						<button type="submit">Save</button>
+						<button>Exit</button>
+					</div>
+				</form>
+				{/* <div className="alert alert-info">
 				{store.message ? (
 					<span>{store.message}</span>
 				) : (
@@ -50,6 +67,7 @@ export const Profile = () => {
 					</span>
 				)}
 			</div> */}
-		</div>
+			</div>
+		</>
 	);
 }; 
