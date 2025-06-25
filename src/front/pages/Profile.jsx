@@ -42,10 +42,14 @@ export const Profile = () => {
 			<div className="text-center mt-5">
 				<h1 className="display-4">Profile Page</h1>
 				<form>
-					<input type="text" name="name" id="name" placeholder="Enter your name" />
-					<input type="email" name="email" id="email" placeholder="Enter email address" />
-					<input type="password" name="password" id="password" placeholder="Enter password" />
-					<input type="file" name="" id="" />
+					<div class="mb-3">
+						<label for="exampleFormControlInput1" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+					</div>
+					<div class="mb-3">
+						<label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+					</div>
 
 					<div className="button-wrap">
 						<button type="submit">Save</button>
