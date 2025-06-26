@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { Navbar } from "../components/Navbar.jsx";
+// import { Navbar } from "../components/Navbar.jsx";
 
 // This component is used to display the profile page of the user.
 // Coppied from the Home Component
