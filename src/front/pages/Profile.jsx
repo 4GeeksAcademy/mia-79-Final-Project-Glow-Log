@@ -14,7 +14,6 @@ export const Profile = () => {
 
 	return (
 		<>
-			<Navbar />
 			<div className="text-center mt-5">
 				<h1 className="display-4">Profile Page</h1>
 				<form>
