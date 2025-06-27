@@ -33,6 +33,18 @@ export const Profile = () => {
 						<label htmlFor="password" class="form-label">Password</label>
 						<input class="form-control" id="password" rows="3" />
 					</div>
+					{/* PHOTO - BIO */}
+					<div className="mb-3">
+						<img src="https://placehold.co/600x400/png" alt="Bio Image" />
+					</div>
+					<div className="mb-3">
+
+					</div>
+
+					<div className="mb-3">
+						<label htmlFor="formFileSm" className="form-label">Small file input example</label>
+						<input class="form-control form-control-sm" id="formFileSm" type="file" />
+					</div>
 					{/* BUTTONS  */}
 					<div className="button-wrap">
 						<button className="btn btn-primary" type="submit">Save</button>
