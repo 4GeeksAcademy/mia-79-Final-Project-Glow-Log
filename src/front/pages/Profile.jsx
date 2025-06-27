@@ -13,7 +13,7 @@ export const Profile = () => {
 
 
 	return (
-		<div className="container">
+		<div className="container-sm">
 			<div className="text-center mt-5">
 				<h1 className="display-4">User Profile</h1>
 				<form>
@@ -35,14 +35,14 @@ export const Profile = () => {
 					</div>
 					{/* PHOTO - BIO */}
 					<div className="mb-3">
-						<img src="https://placehold.co/600x400/png" alt="Bio Image" />
+						<img className="img-thumbnail" src="https://placehold.co/200x200/png" alt="Bio Image" />
 					</div>
 					<div className="mb-3">
 
 					</div>
 
 					<div className="mb-3">
-						<label htmlFor="formFileSm" className="form-label">Small file input example</label>
+						<label htmlFor="formFileSm" className="form-label">Upload Bio 200x200 Image </label>
 						<input class="form-control form-control-sm" id="formFileSm" type="file" />
 					</div>
 					{/* BUTTONS  */}
