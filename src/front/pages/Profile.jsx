@@ -13,28 +13,46 @@ export const Profile = () => {
 
 
 	return (
-		<>
+		<div className="container-sm">
 			<div className="text-center mt-5">
-				<h1 className="display-4">Profile Page</h1>
+				<h1 className="display-4">User Profile</h1>
 				<form>
-					<div class="mb-3">
-						<label for="FormControlName" class="form-label">Name</label>
-						<input type="text" class="form-control" id="FormControlName" placeholder="Enter a Name" />
-						<label for="exampleFormControlemail" class="form-label">Email address</label>
-						<input type="email" class="form-control" id="exampleFormControlemail" placeholder="name@example.com" />
+					{/* NAME - Input */}
+					<div className="mb-3">
+						<label htmlFor="name" class="form-label">Name</label>
+						<input type="text" class="form-control" id="name" placeholder="Enter a Name" />
+
 					</div>
-					<div class="mb-3">
-						<label for="FormControlPassword" class="form-label">Password</label>
-						<input class="form-control" id="FormControlPassword" rows="3" />
+					{/* {EMAIL - Input} */}
+					<div className="mb-3">
+						<label htmlFor="email" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="email" placeholder="name@example.com" />
+					</div>
+					{/* PASSWORD Input */}
+					<div className="mb-3">
+						<label htmlFor="password" class="form-label">Password</label>
+						<input class="form-control" id="password" rows="3" />
+					</div>
+					{/* PHOTO - BIO */}
+					<div className="mb-3">
+						<img className="img-thumbnail" src="https://placehold.co/200x200/png" alt="Bio Image" />
+					</div>
+					<div className="mb-3">
+
 					</div>
 
+					<div className="mb-3">
+						<label htmlFor="formFileSm" className="form-label">Upload Bio 200x200 Image </label>
+						<input class="form-control form-control-sm" id="formFileSm" type="file" />
+					</div>
+					{/* BUTTONS  */}
 					<div className="button-wrap">
-						<button type="submit">Save</button>
-						<button>Exit</button>
+						<button className="btn btn-primary" type="submit">Save</button>
+						<button className="ml-3 btn btn-outline-secondary" type="button">Exit</button>
 					</div>
 				</form>
 
 			</div>
-		</>
+		</div>
 	);
-}; 
+};
