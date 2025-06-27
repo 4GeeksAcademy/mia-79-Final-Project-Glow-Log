@@ -13,7 +13,7 @@ export const Profile = () => {
 
 
 	return (
-		<>
+		<div className="container">
 			<div className="text-center mt-5">
 				<h1 className="display-4">Profile Page</h1>
 				<form>
@@ -35,6 +35,6 @@ export const Profile = () => {
 				</form>
 
 			</div>
-		</>
+		</div>
 	);
-}; 
+};
