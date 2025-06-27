@@ -5,6 +5,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 export const ProductLog = () => {
   const { store, dispatch } = useGlobalReducer();
 
+
   const loadMessage = async () => {
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -32,27 +33,37 @@ export const ProductLog = () => {
   }, []);
 
   return (
-    <div className="text-center mt-5">
-      <h1 className="display-4">GlowLog</h1>
+    <div className="text-center" style={{ backgroundColor: 'rgb(221, 230, 196)' }}>
+      <div className="d-flex justify-content-between p-4">
+        <h6>Filter</h6>
+        <h6>Sort</h6>
+      </div>
       <ul className="list-group m-2">
-        <li
-          className="list-group-item d-flex justify-content-between align-items-center position-relative"
-        >
-          <img src="https://placehold.co/200x200" className="rounded-circle" />
-          <div className="container">
-            <h5 className="text-start">Product Name</h5>
-            <p className="text-start">
-              <i className="fa-solid fa-pump-soap"></i>
-              Product Brand/Type
-            </p>
-            <p className="text-start">
-              Product Expiration Date 
-            </p>
-            <p className="text-start">
-              Product Opened Date
-            </p>
-          </div>
-        </li>
+        {store.products.map((product) => {
+          return (
+            <li
+              className="list-group-item d-flex justify-content-between align-items-center position-relative"
+              style={{ backgroundColor: 'rgb(157, 175, 122)' }}
+            >
+              <img src="https://placehold.co/200x200" className="rounded-circle" />
+              <div className="container">
+                <h5 className="text-start">{product.name}</h5>
+                <p className="text-start">
+                  {product.brand}
+                </p>
+                <p className="text-start">
+                  {product.category}
+                </p>
+                <p className="text-start">
+                  {product.expiration_date}
+                </p>
+                <p className="text-start">
+                  {product.opened_date}
+                </p>
+              </div>
+            </li>
+          )
+        })}
       </ul>
     </div>
   );

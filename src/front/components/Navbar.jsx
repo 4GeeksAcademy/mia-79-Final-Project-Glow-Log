@@ -7,7 +7,7 @@ export const Navbar = () => {
 		<nav className="navbar p-2" style={{ backgroundColor: 'rgb(221, 230, 196)' }}>
 			<div className="container-fluid d-flex justify-content-between align-items-center p-2">
 				<Link className="navbar-brand d-flex align-items-center" to="/">
-					<img src={logoImageUrl} alt="logo" width="60" height="60" className="me-2" style={{ color: 'rgb(67, 81, 40)' }}/>
+					<img src={logoImageUrl} alt="logo" width="60" height="60" className="me-2"/>
 					<h1 style={{ color: 'rgb(67, 81, 40)' }}>GlowLog</h1>
 				</Link>
 				<ul className="navbar-nav d-flex flex-row">
