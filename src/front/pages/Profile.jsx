@@ -18,19 +18,19 @@ export const Profile = () => {
 				<h1 className="display-4">Profile Page</h1>
 				<form>
 					{/* NAME - Input */}
-					<div class="mb-3">
-						<label for="name" class="form-label">Name</label>
+					<div className="mb-3">
+						<label htmlFor="name" class="form-label">Name</label>
 						<input type="text" class="form-control" id="name" placeholder="Enter a Name" />
 
 					</div>
-					{EMAIL - Input}
-					<div class="mb-3">
-						<label for="email" class="form-label">Email address</label>
+					{/* {EMAIL - Input} */}
+					<div className="mb-3">
+						<label htmlFor="email" class="form-label">Email address</label>
 						<input type="email" class="form-control" id="email" placeholder="name@example.com" />
 					</div>
 					{/* PASSWORD Input */}
-					<div class="mb-3">
-						<label for="password" class="form-label">Password</label>
+					<div className="mb-3">
+						<label htmlFor="password" class="form-label">Password</label>
 						<input class="form-control" id="password" rows="3" />
 					</div>
 					{/* BUTTONS  */}
