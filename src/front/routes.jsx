@@ -1,4 +1,6 @@
-// Import necessary components and functions from react-router-dom.
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SignUp from './pages/SignUp';
 
 import {
   createBrowserRouter,
@@ -27,6 +29,7 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/profile" element={<Profile />} />
+             <Route path="/signup" element={<SignUp />} />
     </Route>
   )
 );
