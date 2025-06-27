@@ -15,7 +15,7 @@ export const Profile = () => {
 	return (
 		<div className="container">
 			<div className="text-center mt-5">
-				<h1 className="display-4">Profile Page</h1>
+				<h1 className="display-4">User Profile</h1>
 				<form>
 					{/* NAME - Input */}
 					<div className="mb-3">
@@ -36,7 +36,7 @@ export const Profile = () => {
 					{/* BUTTONS  */}
 					<div className="button-wrap">
 						<button className="btn btn-primary" type="submit">Save</button>
-						<button className="btn btn-outline-secondary" type="button">Exit</button>
+						<button className="ml-3 btn btn-outline-secondary" type="button">Exit</button>
 					</div>
 				</form>
 
