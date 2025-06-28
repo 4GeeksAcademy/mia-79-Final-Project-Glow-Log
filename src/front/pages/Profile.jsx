@@ -13,7 +13,7 @@ export const Profile = () => {
 
 
 	return (
-		<div className="container-sm">
+		<div className="container">
 			<div className="text-center mt-5">
 				<h1 className="display-4">User Profile</h1>
 				<form>
