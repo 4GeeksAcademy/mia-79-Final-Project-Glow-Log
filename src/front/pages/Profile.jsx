@@ -19,18 +19,18 @@ export const Profile = () => {
 				<form>
 					{/* NAME - Input */}
 					<div className="mb-3">
-						<label htmlFor="name" class="form-label">Name</label>
+						<label htmlFor="name" className="form-label">Name</label>
 						<input type="text" class="form-control" id="name" placeholder="Enter a Name" />
 
 					</div>
 					{/* {EMAIL - Input} */}
 					<div className="mb-3">
-						<label htmlFor="email" class="form-label">Email address</label>
+						<label htmlFor="email" className="form-label">Email address</label>
 						<input type="email" class="form-control" id="email" placeholder="name@example.com" />
 					</div>
 					{/* PASSWORD Input */}
 					<div className="mb-3">
-						<label htmlFor="password" class="form-label">Password</label>
+						<label htmlFor="password" className="form-label">Password</label>
 						<input class="form-control" id="password" rows="3" />
 					</div>
 					{/* PHOTO - BIO */}
