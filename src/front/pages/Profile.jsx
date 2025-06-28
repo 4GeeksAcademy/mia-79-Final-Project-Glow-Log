@@ -13,7 +13,7 @@ export const Profile = () => {
 
 
 	return (
-		<div className="container">
+		<div className="container" style={{ backgroundColor: "var(--gl-green-bg)" }}>
 			<div className="text-center mt-5">
 				<h1 className="display-4">User Profile</h1>
 				<form>
@@ -53,6 +53,6 @@ export const Profile = () => {
 				</form>
 
 			</div>
-		</div>
+		</div >
 	);
 };
