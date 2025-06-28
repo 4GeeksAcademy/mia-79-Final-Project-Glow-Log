@@ -5,7 +5,6 @@ import SignUp from './pages/SignUp';
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
 } from "react-router-dom";
 import  AddProduct from "./pages/AddProduct";
 import { Layout } from "./pages/Layout";
