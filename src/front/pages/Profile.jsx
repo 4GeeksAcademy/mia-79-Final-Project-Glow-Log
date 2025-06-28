@@ -13,7 +13,7 @@ export const Profile = () => {
 
 
 	return (
-		<div className="container-fluid border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
+		<div className="container-fluid pb-3 border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
 			<div className="text-center mt-5">
 				<h1 className="display-4">User Profile</h1>
 				<form>
