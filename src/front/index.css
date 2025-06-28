@@ -1,0 +1,34 @@
+/* Glow Log Color Styles */
+:root {
+/* Hex: #768F58 | LEAVES: Inner Light Green | Face Area */
+  --gl-green-bottle: rgb(118, 143, 88);
+
+/* Hex: #DDE6C4 | blue_book: Book Dark Olive */
+  --gl-light-green: rgb(221, 230, 196);
+
+/* Hex: #5D6C3B | memo: Book Pages Green-Tan */
+  --gl-dark-olive: rgb(93, 108, 59);
+
+/* HEX: #9DAF7A | sparkles: Star (Golden Highlight) */
+  --gl-dark-green: rgb(157, 175, 122);
+
+/* Hex: #F5E57F | blush: Face Cheeks */
+   --gl-light-yellow: rgb(245, 229, 127)
+
+/* Hex: #C5D09F | LOGO-Text */
+--gl-light-olive-green: rgb(197, 208, 159)
+
+/* Hex: #435128 */
+--gl-green-name: rgb(67, 81, 40)
+}
+
+
+
+
+
+
+
+
+
+
+
