@@ -9,9 +9,10 @@ import {
 } from "react-router-dom";
 import  AddProduct from "./pages/AddProduct";
 import { Layout } from "./pages/Layout";
-import { Home } from "./pages/Home";
+// import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
+import { ProductLog } from "./pages/ProductLog";
 import { Profile } from "./pages/Profile";
 
 export const router = createBrowserRouter(
@@ -27,7 +28,7 @@ export const router = createBrowserRouter(
 
 
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<ProductLog />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/profile" element={<Profile />} />
