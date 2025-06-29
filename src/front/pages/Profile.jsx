@@ -11,10 +11,10 @@ export const Profile = () => {
 	return (
 		// todo: refactor css with css custom properties
 		// add more responsive design bootstrap classes
-		<div className="container-fluid pb-3 border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
+		<div className="container-lg pb-3" style={{ backgroundColor: "#F7F6EC" }}>
 			<div className="text-start mt-5 ">
 				<div className="row">
-					<div className="col-4 mx-auto border border-success">
+					<div className="col-4 mx-auto">
 						<h1 className="display-4">User Profile</h1>
 						<form>
 
@@ -49,7 +49,7 @@ export const Profile = () => {
 							</div>
 
 							{/* BUTTONS  */}
-							<div className="button-wrap d-flex justify-content-center border border-danger">
+							<div className="button-wrap d-flex justify-content-center pb-3">
 								<button className="btn btn-primary" type="submit">Save</button>
 								<button className="ms-3 btn btn-outline-secondary" type="button">Exit</button>
 							</div>
