@@ -12,7 +12,7 @@ export const Profile = () => {
 	return (
 		// todo: refactor css with css custom properties
 		// add more responsive design bootstrap classes
-		<div className="container-lg pb-3 gl-bg" >
+		<div className="container-lg pb-3" >
 			<div className="text-start mt-5 ">
 				<div className="row">
 					<div className="col-4 mx-auto">
