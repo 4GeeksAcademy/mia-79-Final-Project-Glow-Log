@@ -36,6 +36,7 @@ export const Profile = () => {
 								<img className="img-thumbnail" src="https://placehold.co/200x200/png" alt="Bio Image" />
 							</div>
 							<div className="mb-3">
+								<p>hello</p>
 
 							</div>
 
