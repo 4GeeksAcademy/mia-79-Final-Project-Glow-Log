@@ -1,11 +1,7 @@
 import React, { useEffect } from "react"
 
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-// import { Navbar } from "../components/Navbar.jsx";
 
-// This component is used to display the profile page of the user.
-// Coppied from the Home Component
-// TODO: Refactor this component for the profile page
 export const Profile = () => {
 
 	const { store, dispatch } = useGlobalReducer()
