@@ -26,11 +26,13 @@ export const Profile = () => {
 								<label htmlFor="email" className="form-label">Email address</label>
 								<input type="email" class="form-control" id="email" placeholder="name@example.com" />
 							</div>
+
 							{/* PASSWORD Input */}
 							<div className="mb-3">
 								<label htmlFor="password" className="form-label">Password</label>
 								<input class="form-control" id="password" rows="3" />
 							</div>
+
 							{/* PHOTO - BIO */}
 							<div className="mb-3">
 								<img className="img-thumbnail" src="https://placehold.co/200x200/png" alt="Bio Image" />
