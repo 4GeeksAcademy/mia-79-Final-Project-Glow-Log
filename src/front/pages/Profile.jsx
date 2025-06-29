@@ -15,12 +15,14 @@ export const Profile = () => {
 					<div className="col-4">
 						<h1 className="display-4">User Profile</h1>
 						<form>
+
 							{/* NAME - Input */}
 							<div className="mb-3">
 								<label htmlFor="name" className="form-label">Name</label>
 								<input type="text" class="form-control" id="name" placeholder="Enter a Name" />
 
 							</div>
+
 							{/* {EMAIL - Input} */}
 							<div className="mb-3">
 								<label htmlFor="email" className="form-label">Email address</label>
