@@ -48,7 +48,7 @@ export const Profile = () => {
 								<input class="form-control form-control-sm" id="formFileSm" type="file" />
 							</div>
 							{/* BUTTONS  */}
-							<div className="button-wrap">
+							<div className="button-wrap border border-danger">
 								<button className="btn btn-primary" type="submit">Save</button>
 								<button className="ml-3 btn btn-outline-secondary" type="button">Exit</button>
 							</div>
