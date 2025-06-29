@@ -47,9 +47,9 @@ export const Profile = () => {
 							</div>
 
 							{/* BUTTONS  */}
-							<div className="button-wrap border border-danger">
+							<div className="button-wrap d-flex justify-content-center border border-danger">
 								<button className="btn btn-primary" type="submit">Save</button>
-								<button className="ml-3 btn btn-outline-secondary" type="button">Exit</button>
+								<button className="ms-3 btn btn-outline-secondary" type="button">Exit</button>
 							</div>
 						</form>
 					</div>
