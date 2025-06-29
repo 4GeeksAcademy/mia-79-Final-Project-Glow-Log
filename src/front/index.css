@@ -18,12 +18,11 @@
 /* Hex: #C5D09F | LOGO-Text */
 --gl-light-olive-green: rgb(197, 208, 159)
 
-/* Hex: F7F6EC */
---gl-green-bg: red
+
 
 
 }
-
+/* Common Background */
 .gl-bg {
   background-color: var(--gl-light-green);
 }
