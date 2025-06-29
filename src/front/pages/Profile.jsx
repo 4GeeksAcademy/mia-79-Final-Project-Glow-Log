@@ -9,10 +9,11 @@ export const Profile = () => {
 
 
 	return (
-		<div className="container pb-3 border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
-			<div className="text-start mt-5">
+		// todo: refactor css with css custom properties
+		<div className="container-fluid pb-3 border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
+			<div className="text-start mt-5 ">
 				<div className="row">
-					<div className="col-4">
+					<div className="col-4 mx-auto border border-success">
 						<h1 className="display-4">User Profile</h1>
 						<form>
 
