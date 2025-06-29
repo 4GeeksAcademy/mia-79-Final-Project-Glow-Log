@@ -5,6 +5,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 export const Profile = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+	// Set Page Title
 	document.title = "Glow Log - Profile";
 
 
