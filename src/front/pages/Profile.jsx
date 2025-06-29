@@ -10,6 +10,7 @@ export const Profile = () => {
 
 	return (
 		// todo: refactor css with css custom properties
+		// add more responsive design bootstrap classes
 		<div className="container-fluid pb-3 border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
 			<div className="text-start mt-5 ">
 				<div className="row">
