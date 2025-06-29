@@ -35,15 +35,13 @@ export const Profile = () => {
 							<div className="mb-3">
 								<img className="img-thumbnail" src="https://placehold.co/200x200/png" alt="Bio Image" />
 							</div>
-							<div className="mb-3">
-								<p>hello</p>
 
-							</div>
 
 							<div className="mb-3">
 								<label htmlFor="formFileSm" className="form-label">Upload Bio 200x200 Image </label>
 								<input class="form-control form-control-sm" id="formFileSm" type="file" />
 							</div>
+
 							{/* BUTTONS  */}
 							<div className="button-wrap border border-danger">
 								<button className="btn btn-primary" type="submit">Save</button>
