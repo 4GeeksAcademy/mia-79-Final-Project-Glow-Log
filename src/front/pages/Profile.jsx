@@ -15,7 +15,7 @@ export const Profile = () => {
 	return (
 		<div className="container pb-3 border border-danger" style={{ backgroundColor: "#F7F6EC" }}>
 			<div className="text-start mt-5">
-				<div className="column-4">
+				<div className="col-4">
 					<div className="">
 						<h1 className="display-4">User Profile</h1>
 						<form>
