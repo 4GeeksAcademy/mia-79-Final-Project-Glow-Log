@@ -4,7 +4,8 @@
   --gl-green-bottle: rgb(118, 143, 88);
 
 /* Hex: #DDE6C4 | blue_book: Book Dark Olive */
-  --gl-light-green: rgb(221, 230, 196);
+  /* --gl-light-green: rgb(221, 230, 196); */
+  --gl-light-green: #F7F6EC;
 
 /* Hex: #5D6C3B | memo: Book Pages Green-Tan */
   --gl-dark-olive: rgb(93, 108, 59);
