@@ -15,7 +15,7 @@ export const Navbar = () => {
 						<Link className="nav-link active" aria-current="page" to="/" style={{ color: 'rgb(67, 81, 40)' }}>Main Page</Link>
 					</li>
 					<li className="nav-item p-2" style={{ color: 'rgb(157, 175, 122)' }}>
-						<Link className="nav-link" to="/">Profile</Link>
+						<Link className="nav-link" to="/profile">Profile</Link>
 					</li>
 				</ul>
 			</div>
