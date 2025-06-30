@@ -5,32 +5,45 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 export const ProductLog = () => {
   const { store, dispatch } = useGlobalReducer();
 
+  // const loadMessage = async () => {
+  //   try {
+  //     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const loadMessage = async () => {
-    try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  //     if (!backendUrl)
+  //       throw new Error("VITE_BACKEND_URL is not defined in .env file");
 
-      if (!backendUrl)
-        throw new Error("VITE_BACKEND_URL is not defined in .env file");
+  //     const response = await fetch(backendUrl + "/api/hello");
+  //     const data = await response.json();
 
-      const response = await fetch(backendUrl + "/api/hello");
-      const data = await response.json();
+  //     if (response.ok) dispatch({ type: "set_hello", payload: data.message });
 
-      if (response.ok) dispatch({ type: "set_hello", payload: data.message });
+  //     return data;
+  //   } catch (error) {
+  //     if (error.message)
+  //       throw new Error(
+  //         `Could not fetch the message from the backend.
+  //               Please check if the backend is running and the backend port is public.`
+  //       );
+  //   }
+  // };
 
-      return data;
-    } catch (error) {
-      if (error.message)
-        throw new Error(
-          `Could not fetch the message from the backend.
-                Please check if the backend is running and the backend port is public.`
-        );
-    }
-  };
-
-  useEffect(() => {
-    loadMessage();
-  }, []);
+    useEffect(() => {
+    //Step 1: Get the list of characters (name + uid)
+      fetch("`${store.CHARACTER_URL}`")
+        .then((res) => res.json())
+        .then(async (data) => {
+          //Step 2: Fetch full details for each character by uid
+          const promises = data.results.map((char) =>
+            fetch(`${store.CHARACTER_URL}/${char.uid}`).then((res) => res.json())
+          );
+          const detailedCharacters = await Promise.all(promises);
+          const charactersWithUID = detailedCharacters.map((char, index) => ({
+            ...char.result.properties,
+            uid: data.results[index].uid,
+          }));
+          dispatch({ type: "SET_CHARACTERS", payload: charactersWithUID });
+        });
+   }, []);
 
   return (
     <div className="text-center" style={{ backgroundColor: 'rgb(221, 230, 196)' }}>
