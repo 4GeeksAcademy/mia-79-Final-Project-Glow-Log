@@ -6,29 +6,34 @@ const API_URL = "https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github
 export default function AddProduct() {
   const [photo, setPhoto] = useState(null);
   const [productName, setProductName] = useState("");
-  
-  // Existing categories and brands arrays, can come from props or API in the future
+  const [purchasePrice, setPurchasePrice] = useState(""); // numeric value
+  const [purchasePriceDisplay, setPurchasePriceDisplay] = useState(""); // formatted string
+
   const [categories, setCategories] = useState([
     "Make Up",
     "SunScreen",
     "Fragance",
   ]);
-  const [brands, setBrands] = useState([
-    "Brand A",
-    "Brand B",
-  ]);
+  const [brands, setBrands] = useState(["Brand A", "Brand B"]);
 
-  // State for selected values
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
-  // States to handle adding new category/brand
   const [addingCategory, setAddingCategory] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [addingBrand, setAddingBrand] = useState(false);
   const [newBrand, setNewBrand] = useState("");
+
+  const formatCurrency = (value) => {
+    const num = parseFloat(value.replace(/[^0-9.]/g, ''));
+    if (isNaN(num)) return "";
+    return num.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  };
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -51,7 +56,6 @@ export default function AddProduct() {
       return;
     }
 
-    // Decide which category & brand to send:
     const finalCategory = addingCategory ? newCategory.trim() : category;
     const finalBrand = addingBrand ? newBrand.trim() : brand;
 
@@ -71,6 +75,7 @@ export default function AddProduct() {
       expiration_date: expirationDate,
       brand: finalBrand,
       photo,
+      price: parseFloat(purchasePrice),
     };
 
     try {
@@ -85,7 +90,6 @@ export default function AddProduct() {
 
       if (response.ok) {
         alert("Product added successfully!");
-        // If new category or brand was added, update the lists so next time it's in the dropdown
         if (addingCategory && newCategory.trim()) {
           setCategories((prev) => [...prev, newCategory.trim()]);
         }
@@ -93,15 +97,14 @@ export default function AddProduct() {
           setBrands((prev) => [...prev, newBrand.trim()]);
         }
 
-        // Reset all form fields
         setProductName("");
+        setPurchasePrice("");
+        setPurchasePriceDisplay("");
         setCategory("");
         setPurchaseDate("");
         setExpirationDate("");
         setBrand("");
         setPhoto(null);
-
-        // Reset adding states
         setAddingCategory(false);
         setNewCategory("");
         setAddingBrand(false);
@@ -161,15 +164,32 @@ export default function AddProduct() {
           </button>
         </div>
 
-        {/* PRODUCT NAME */}
+        {/* PRODUCT NAME & PRICE */}
         <div className="mb-2">
           <input
-            className="form-control"
+            className="form-control mb-2"
             placeholder="Product Name"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
             required
           />
+          <div className="input-group">
+            <span className="input-group-text">Price</span>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Purchase Price"
+              value={purchasePriceDisplay}
+              onChange={(e) => {
+                const raw = e.target.value;
+                const numericValue = raw.replace(/[^0-9.]/g, "");
+                setPurchasePrice(numericValue);
+                setPurchasePriceDisplay(formatCurrency(numericValue));
+              }}
+              inputMode="decimal"
+              required
+            />
+          </div>
         </div>
 
         {/* CATEGORY */}
@@ -299,8 +319,9 @@ export default function AddProduct() {
             type="button"
             className="btn btn-outline-dark w-50 ms-1"
             onClick={() => {
-              // You can customize exit behavior here, like clearing or navigating away
               setProductName("");
+              setPurchasePrice("");
+              setPurchasePriceDisplay("");
               setCategory("");
               setPurchaseDate("");
               setExpirationDate("");
