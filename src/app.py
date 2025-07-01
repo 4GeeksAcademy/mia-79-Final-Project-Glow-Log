@@ -64,6 +64,21 @@ def get_user_product_log(user_id):
         raise APIException("User not found", 404)
     return jsonify(user.serialize())
 
+@app.route('/users', methods=["GET", "POST"])
+def get_users():
+    users = User.query.all()
+    users_list = []
+    for user in users: 
+        users_list.append(
+            users.serialize()
+        )
+    return jsonify(users_list), 200
+
+def add_user():
+    users = User.query.all()
+    request_body = request.get_json
+    users.append(request_body)
+    return jsonify(users)
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
