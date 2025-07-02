@@ -64,21 +64,50 @@ def get_user_product_log(user_id):
         raise APIException("User not found", 404)
     return jsonify(user.serialize())
 
-@app.route('/users', methods=["GET", "POST"])
+@app.route('/users', methods=["GET"])
 def get_users():
     users = User.query.all()
     users_list = []
     for user in users: 
         users_list.append(
-            users.serialize()
+            user.serialize()
         )
     return jsonify(users_list), 200
 
+@app.route('/users', methods=["POST"])
 def add_user():
-    users = User.query.all()
-    request_body = request.get_json
-    users.append(request_body)
-    return jsonify(users)
+    request_body = request.json
+    user = User.query.filter_by(email = request_body['email']).one_or_none()
+    if user is not None: 
+        return "Email already used", 400
+    user = User(
+        email = request_body['email'],
+        password = request_body['password']
+    )
+    db.session.add(user)
+    db.session.commit()
+    return jsonify(user.serialize()), 201
+
+@app.route('/users/<int:user_id>/profile', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({"error": "No user found"})
+    return jsonify(user.serialize()), 200
+
+@app.route('/users/<int:user_id>/profile', methods=['DELETE'])
+def delete_profile(user_id):
+    user = User.query.get(user_id)
+    if not user: 
+        return jsonify({"error": "User not found"}), 404
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({"message": "User deleted"}), 200
+    # user_id = request.json.get('user_id')
+    # profile = Profile.query.get('profile_id')
+    # db.session.delete(user_id)
+    # db.session.commit()
+    # return jsonify({"MSG": "Profile deleted"}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

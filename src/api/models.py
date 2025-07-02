@@ -10,7 +10,7 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
     purchase_details: Mapped[list["PurchaseDetails"]] = relationship("PurchaseDetails", backref="user")
-
+    
     def serialize(self):
         return {
             "id": self.id,

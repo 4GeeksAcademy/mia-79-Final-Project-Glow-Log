@@ -46,7 +46,7 @@ export const Profile = () => {
 
 							<div className="mb-3">
 								<label htmlFor="formFileSm" className="form-label">Upload Bio 200x200 Image </label>
-								<input class="form-control form-control-sm" id="formFileSm" type="file" />
+								<input className="form-control form-control-sm" id="formFileSm" type="file" />
 							</div>
 
 							{/* BUTTONS  */}
