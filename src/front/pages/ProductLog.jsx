@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { Link } from "react-router-dom";
 
 export const ProductLog = () => {
   const { store, dispatch } = useGlobalReducer();
@@ -48,8 +49,13 @@ export const ProductLog = () => {
   return (
     <div className="text-center" style={{ backgroundColor: 'rgb(221, 230, 196)' }}>
       <div className="d-flex justify-content-between p-4">
-        <h6>Filter</h6>
-        <h6>Sort</h6>
+        <div className="d-flex justify-content-start"> 
+          <h6 className="m-2">Filter</h6>
+          <h6 className= "m-2">Sort</h6>
+          </div>
+        <div>
+        <Link className="nav-link" to="/addProduct">Add Product</Link>
+        </div>
       </div>
       <ul className="list-group m-2">
         {store.products.map((product) => {
