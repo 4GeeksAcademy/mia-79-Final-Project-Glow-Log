@@ -22,18 +22,20 @@ class User(db.Model):
 class Product(db.Model):
     id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
-    model: Mapped[str] = mapped_column(String(120), nullable=False)
-    listed_price: Mapped[float] = mapped_column(db.Numeric(precision=10,scale=2))
-    store: Mapped[str]=mapped_column(String(120))
+    brand: Mapped[str] = mapped_column(String(120), nullable=False)
+    type: Mapped[str] = mapped_column(String(120), nullable=False)
+    # listed_price: Mapped[float] = mapped_column(db.Numeric(precision=10,scale=2))
+    # store: Mapped[str]=mapped_column(String(120))
     purchase_details: Mapped[list["PurchaseDetails"]] = relationship("PurchaseDetails", backref="product")
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "model": self.model, 
-            "listed_price": self.listed_price,
-            "store": self.store, 
+            "brand": self.brand, 
+            "type": self.type,
+            # "listed_price": self.listed_price,
+            # "store": self.store, 
         }
 
 class PurchaseDetails(db.Model):

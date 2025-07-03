@@ -122,7 +122,7 @@ export default function AddProduct() {
   return (
     <div
       className="d-flex align-items-center justify-content-center vh-100"
-      style={{ backgroundColor: "#d4fcd4" }}
+      style={{ backgroundColor: 'rgb(221, 230, 196)' }}
     >
       <form
         onSubmit={handleSubmit}

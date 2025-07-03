@@ -57,8 +57,8 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
-@app.route('/users/<int:user_id>/product_log', methods=["GET"])
-def get_user_product_log(user_id):
+@app.route('/users/<int:user_id>/purchase_details', methods=["GET"])
+def get_user_purchase_details(user_id):
     user = User.get(user_id)
     if user is None:
         raise APIException("User not found", 404)
@@ -108,6 +108,33 @@ def delete_profile(user_id):
     # db.session.delete(user_id)
     # db.session.commit()
     # return jsonify({"MSG": "Profile deleted"}), 200
+
+@app.route('/users/<int:user_id>/purchase_details', methods=["POST"])
+def add_product(user_id):
+    request_body = request.json
+    product = Product.query.filter_by(name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
+    if not product: 
+        product_details = Product(
+            name= request_body['name'],
+            brand=request_body['brand'],
+            type=request_body['type']
+        )
+        db.session.add(product_details)
+        db.session.commit()
+        product = product_details
+    if not product: 
+        return jsonify({"error": "product could not be created or found"}), 400
+    purchase_details = PurchaseDetails(
+        product_id = product.id,
+        user_id = user_id,
+        purchase_date = request_body['purchase_date'],
+        expiration_date = request_body['expiration_date'],
+        price = request_body['price'],
+        store = request_body['store']
+    )
+    db.session.add(purchase_details)
+    db.session.commit()
+    return jsonify({"message": "product added"}), 201
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
