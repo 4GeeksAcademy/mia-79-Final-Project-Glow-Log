@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Product, PurchaseDetails
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -21,8 +21,8 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@api.route('/users/<int:user_id>/product_log', methods=["GET"])
-def get_user_product_log(user_id):
+@api.route('/users/<int:user_id>/purchase_details', methods=["GET"])
+def get_user_purchase_details(user_id):
     user = User.get(user_id)
     if user is None:
         raise APIException("User not found", 404)
@@ -67,4 +67,35 @@ def delete_profile(user_id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({"message": "User deleted"}), 200
- 
+    # user_id = request.json.get('user_id')
+    # profile = Profile.query.get('profile_id')
+    # db.session.delete(user_id)
+    # db.session.commit()
+    # return jsonify({"MSG": "Profile deleted"}), 200
+
+@api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
+def add_product(user_id):
+    request_body = request.json
+    product = Product.query.filter_by(name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
+    if not product: 
+        product_details = Product(
+            name= request_body['name'],
+            brand=request_body['brand'],
+            type=request_body['type']
+        )
+        db.session.add(product_details)
+        db.session.commit()
+        product = product_details
+    if not product: 
+        return jsonify({"error": "product could not be created or found"}), 400
+    purchase_details = PurchaseDetails(
+        product_id = product.id,
+        user_id = user_id,
+        purchase_date = request_body['purchase_date'],
+        expiration_date = request_body['expiration_date'],
+        price = request_body['price'],
+        store = request_body['store']
+    )
+    db.session.add(purchase_details)
+    db.session.commit()
+    return jsonify({"message": "product added"}), 201
