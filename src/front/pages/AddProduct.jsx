@@ -382,6 +382,7 @@ export default function AddProduct() {
           </div>
         )}
       </div>
+      {/* End Cloudinary Upload Widget */}
     </div>
   );
 }
