@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage } from '@cloudinary/react';
+import CloudinaryUploadWidget from './components/UploadWidget';
 import glowlogLogo from "../assets/img/glowlog-logo.png";
 
 const API_URL = "https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github.dev/";
 
 export default function AddProduct() {
+  // Cloudinary state
+  const [publicId, setPublicId] = useState('');
+
   const [photo, setPhoto] = useState(null);
   const [productName, setProductName] = useState("");
   const [purchasePrice, setPurchasePrice] = useState(""); // numeric value
