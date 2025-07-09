@@ -10,6 +10,36 @@ export default function AddProduct() {
   // Cloudinary state
   const [publicId, setPublicId] = useState('');
 
+  //Cloudinary Configuration
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+  // Cloudinary configuration
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName,
+    },
+  });
+
+  // Upload Widget Configuration
+  const uwConfig = {
+    cloudName,
+    uploadPreset,
+    // Uncomment and modify as needed:
+    // cropping: true,
+    // showAdvancedOptions: true,
+    // sources: ['local', 'url'],
+    // multiple: false,
+    // folder: 'user_images',
+    // tags: ['users', 'profile'],
+    // context: { alt: 'user_uploaded' },
+    // clientAllowedFormats: ['images'],
+    // maxImageFileSize: 2000000,
+    // maxImageWidth: 2000,
+    // theme: 'purple',
+  };
+
+
   const [photo, setPhoto] = useState(null);
   const [productName, setProductName] = useState("");
   const [purchasePrice, setPurchasePrice] = useState(""); // numeric value
@@ -343,6 +373,14 @@ export default function AddProduct() {
           </button>
         </div>
       </form>
-    </div>
-  );
+      {/* Cloudinary Upload Widget  */}
+      <div className="mt-4 text-center">
+        <CloudinaryUploadWidget uwConfig={uwConfig} setPublicId={setPublicId} />
+        {publicId && (
+          <div className="mt-2">
+            <AdvancedImage cldImg={cld.image(publicId)} />
+          </div>
+        )}
+      </div>
+      );
 }
