@@ -375,7 +375,7 @@ export default function AddProduct() {
       </form>
       {/* Cloudinary Upload Widget  */}
       <div className="mt-4 text-center">
-        <UploadWidget uwConfig={uwConfig} setPublicId={setPublicId} />
+        <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
         {publicId && (
           <div className="mt-2">
             <AdvancedImage cldImg={cld.image(publicId)} />
