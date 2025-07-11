@@ -6,19 +6,16 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Product, PurchaseDetails
+from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-
 # from models import Person
-
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
@@ -26,116 +23,33 @@ if db_url is not None:
         "postgres://", "postgresql://")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
-
 # add the admin
 setup_admin(app)
-
 # add the admin
 setup_commands(app)
-
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
-
 # Handle/serialize errors like a JSON object
-
-
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
-
 # generate sitemap with all your endpoints
-
-
 @app.route('/')
 def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
-
 # any other endpoint will try to serve it like a static file
-# @app.route('/users/<int:user_id>/purchase_details', methods=["GET"])
-# def get_user_purchase_details(user_id):
-#     user = User.get(user_id)
-#     if user is None:
-#         raise APIException("User not found", 404)
-#     return jsonify(user.serialize())
-
-# @app.route('/users', methods=["GET"])
-# def get_users():
-#     users = User.query.all()
-#     users_list = []
-#     for user in users: 
-#         users_list.append(
-#             user.serialize()
-#         )
-#     return jsonify(users_list), 200
-
-# @app.route('/users', methods=["POST"])
-# def add_user():
-#     request_body = request.json
-#     user = User.query.filter_by(email = request_body['email']).one_or_none()
-#     if user is not None: 
-#         return "Email already used", 400
-#     user = User(
-#         email = request_body['email'],
-#         password = request_body['password']
-#     )
-#     db.session.add(user)
-#     db.session.commit()
-#     return jsonify(user.serialize()), 201
-
-# @app.route('/users/<int:user_id>/profile', methods=['GET'])
-# def get_user(user_id):
-#     user = User.query.get(user_id)
-#     if user is None:
-#         return jsonify({"error": "No user found"})
-#     return jsonify(user.serialize()), 200
-
-# @app.route('/users/<int:user_id>/profile', methods=['DELETE'])
-# def delete_profile(user_id):
-#     user = User.query.get(user_id)
-#     if not user: 
-#         return jsonify({"error": "User not found"}), 404
-#     db.session.delete(user)
-#     db.session.commit()
-#     return jsonify({"message": "User deleted"}), 200
-#     # user_id = request.json.get('user_id')
-#     # profile = Profile.query.get('profile_id')
-#     # db.session.delete(user_id)
-#     # db.session.commit()
-#     # return jsonify({"MSG": "Profile deleted"}), 200
-
-# @app.route('/users/<int:user_id>/purchase_details', methods=["POST"])
-# def add_product(user_id):
-#     request_body = request.json
-#     product = Product.query.filter_by(name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
-#     if not product: 
-#         product_details = Product(
-#             name= request_body['name'],
-#             brand=request_body['brand'],
-#             type=request_body['type']
-#         )
-#         db.session.add(product_details)
-#         db.session.commit()
-#         product = product_details
-#     if not product: 
-#         return jsonify({"error": "product could not be created or found"}), 400
-#     purchase_details = PurchaseDetails(
-#         product_id = product.id,
-#         user_id = user_id,
-#         purchase_date = request_body['purchase_date'],
-#         expiration_date = request_body['expiration_date'],
-#         price = request_body['price'],
-#         store = request_body['store']
-#     )
-#     db.session.add(purchase_details)
-#     db.session.commit()
-#     return jsonify({"message": "product added"}), 201
-
+@app.route('/<path:path>', methods=['GET'])
+def serve_any_other_file(path):
+    if not os.path.isfile(os.path.join(static_file_dir, path)):
+        path = 'index.html'
+    response = send_from_directory(static_file_dir, path)
+    response.cache_control.max_age = 0  # avoid cache memory
+    return response
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
