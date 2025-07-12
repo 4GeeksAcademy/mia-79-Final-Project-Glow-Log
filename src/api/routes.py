@@ -118,9 +118,22 @@ def upload_profile_image():
     # get the user
     user_id = get_jwt_identity()
     # if no user retrurn 404
-    if not user_id return 404
+    if not user_id:
+        return 404
     # if user get the profile
+    profile = User.find_by_id(user_id)
     # get the url from the request body
+    request_body = request.json
+    image_url = request_body.get('image_url')
+    public_id = request_body.get('public_id')
     # update the imgage url and the public id profile
+    if not image_url or not public_id:
+        return jsonify({"error": "Image URL and public ID are required"}), 400
+    profile.image_url = image_url
+    profile.public_id = public_id
+    # add the profile to the db session
+    db.session.add(profile)
     # commit the changes to the db
+    db.session.commit()
     # return jsonify( profile.serialize)
+    return jsonify({"message": "Profile image uploaded successfully", "profile": profile.serialize()}), 200
