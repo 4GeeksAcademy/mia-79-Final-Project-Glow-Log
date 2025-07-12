@@ -36,7 +36,7 @@ export default function AddProduct() {
     // clientAllowedFormats: ['images'],
     // maxImageFileSize: 2000000,
     maxImageWidth: 2000,
-    theme: 'purple',
+    // theme: 'purple',
   };
 
 
@@ -202,7 +202,7 @@ export default function AddProduct() {
             <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
             {publicId && (
               <div className="mt-2">
-                <AdvancedImage cldImg={cld.image(publicId)} />
+                <AdvancedImage style={{ backgroundColor: "red" }} cldImg={cld.image(publicId)} />
               </div>
             )}
           </div>
