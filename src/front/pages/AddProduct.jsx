@@ -202,7 +202,7 @@ export default function AddProduct() {
             <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
             {publicId && (
               <div className="mt-2">
-                <AdvancedImage style={{ backgroundColor: "red" }} cldImg={cld.image(publicId)} />
+                <AdvancedImage cldImg={cld.image(publicId)} />
               </div>
             )}
           </div>

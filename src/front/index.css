@@ -40,7 +40,7 @@
 
 
 .cloudinary-button {
-  background-color: red;
+  background-color: var((--gl-dark-olive));
 }
 
 
