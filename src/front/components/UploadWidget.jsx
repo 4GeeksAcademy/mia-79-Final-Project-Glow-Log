@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useGlobalReducer } from '../hooks/useGlobalReducer'
+import useGlobalReducer from '../hooks/useGlobalReducer'
 const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
     const uploadWidgetRef = useRef(null);
     const uploadButtonRef = useRef(null);
