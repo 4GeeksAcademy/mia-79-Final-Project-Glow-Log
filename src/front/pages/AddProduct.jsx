@@ -35,8 +35,8 @@ export default function AddProduct() {
     // context: { alt: 'user_uploaded' },
     // clientAllowedFormats: ['images'],
     // maxImageFileSize: 2000000,
-    // maxImageWidth: 2000,
-    // theme: 'purple',
+    maxImageWidth: 2000,
+    theme: 'purple',
   };
 
 
