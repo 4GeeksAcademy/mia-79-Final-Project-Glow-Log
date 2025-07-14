@@ -28,9 +28,15 @@
   background-color: var(--gl-light-green);
 }
 
-
-
-
+.gl-btn {
+  background-color: var(--gl-dark-olive);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
 
 
