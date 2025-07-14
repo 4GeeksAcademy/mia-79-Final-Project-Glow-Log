@@ -23,7 +23,7 @@ def handle_hello():
 
 @api.route('/users/<int:user_id>/purchase_details', methods=["GET"])
 def get_user_purchase_details(user_id):
-    user = User.get(user_id)
+    user = User.query.filter_by(id = user_id).first()
     if user is None:
         raise APIException("User not found", 404)
     return jsonify(user.serialize())
@@ -72,6 +72,14 @@ def delete_profile(user_id):
     # db.session.delete(user_id)
     # db.session.commit()
     # return jsonify({"MSG": "Profile deleted"}), 200
+@api.route('/users/<int:user_id>/purchase_details/<int:purchase_id>', methods=['DELETE'])
+def delete_purchase(user_id, purchase_id):
+    purchase = PurchaseDetails.query.filter_by(user_id = user_id, id = purchase_id).first()
+    if not purchase: 
+        return jsonify({"error": "Purchase not found"}), 404
+    db.session.delete(purchase)
+    db.session.commit()
+    return jsonify({"message": "Purchase deleted"}), 200
 
 @api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
 def add_product(user_id):
