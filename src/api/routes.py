@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product, PurchaseDetails
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
 
@@ -21,6 +22,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
 @api.route('/users/<int:user_id>/purchase_details', methods=["GET"])
 def get_user_purchase_details(user_id):
     user = User.query.filter_by(id = user_id).first()
@@ -28,29 +30,32 @@ def get_user_purchase_details(user_id):
         raise APIException("User not found", 404)
     return jsonify(user.serialize())
 
+
 @api.route('/users', methods=["GET"])
 def get_users():
     users = User.query.all()
     users_list = []
-    for user in users: 
+    for user in users:
         users_list.append(
             user.serialize()
         )
     return jsonify(users_list), 200
 
+
 @api.route('/users', methods=["POST"])
 def add_user():
     request_body = request.json
-    user = User.query.filter_by(email = request_body['email']).one_or_none()
-    if user is not None: 
+    user = User.query.filter_by(email=request_body['email']).one_or_none()
+    if user is not None:
         return "Email already used", 400
     user = User(
-        email = request_body['email'],
-        password = request_body['password']
+        email=request_body['email'],
+        password=request_body['password']
     )
     db.session.add(user)
     db.session.commit()
     return jsonify(user.serialize()), 201
+
 
 @api.route('/users/<int:user_id>/profile', methods=['GET'])
 def get_user(user_id):
@@ -59,10 +64,11 @@ def get_user(user_id):
         return jsonify({"error": "No user found"})
     return jsonify(user.serialize()), 200
 
+
 @api.route('/users/<int:user_id>/profile', methods=['DELETE'])
 def delete_profile(user_id):
     user = User.query.get(user_id)
-    if not user: 
+    if not user:
         return jsonify({"error": "User not found"}), 404
     db.session.delete(user)
     db.session.commit()
@@ -81,29 +87,61 @@ def delete_purchase(user_id, purchase_id):
     db.session.commit()
     return jsonify({"message": "Purchase deleted"}), 200
 
+
 @api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
 def add_product(user_id):
     request_body = request.json
-    product = Product.query.filter_by(name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
-    if not product: 
+    product = Product.query.filter_by(
+        name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
+    if not product:
         product_details = Product(
-            name= request_body['name'],
+            name=request_body['name'],
             brand=request_body['brand'],
             type=request_body['type']
         )
         db.session.add(product_details)
         db.session.commit()
         product = product_details
-    if not product: 
+    if not product:
         return jsonify({"error": "product could not be created or found"}), 400
     purchase_details = PurchaseDetails(
-        product_id = product.id,
-        user_id = user_id,
-        purchase_date = request_body['purchase_date'],
-        expiration_date = request_body['expiration_date'],
-        price = request_body['price'],
-        store = request_body['store']
+        product_id=product.id,
+        user_id=user_id,
+        purchase_date=request_body['purchase_date'],
+        expiration_date=request_body['expiration_date'],
+        price=request_body['price'],
+        store=request_body['store']
     )
     db.session.add(purchase_details)
     db.session.commit()
     return jsonify({"message": "product added"}), 201
+
+#  Image upload endpoint
+
+
+@api.route("/profile-images", methods=["POST"])
+@jwt_required()
+def upload_profile_image():
+
+    # get the user
+    user_id = get_jwt_identity()
+    # if no user retrurn 404
+    if not user_id:
+        return 404
+    # if user get the profile
+    profile = User.find_by_id(user_id)
+    # get the url from the request body
+    request_body = request.json
+    image_url = request_body.get('image_url')
+    public_id = request_body.get('public_id')
+    # update the imgage url and the public id profile
+    if not image_url or not public_id:
+        return jsonify({"error": "Image URL and public ID are required"}), 400
+    profile.image_url = image_url
+    profile.public_id = public_id
+    # add the profile to the db session
+    db.session.add(profile)
+    # commit the changes to the db
+    db.session.commit()
+    # return jsonify( profile.serialize)
+    return jsonify({"message": "Profile image uploaded successfully", "profile": profile.serialize()}), 200

@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
-
+import useGlobalReducer from '../hooks/useGlobalReducer'
 const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
     const uploadWidgetRef = useRef(null);
     const uploadButtonRef = useRef(null);
+    const { store } = useGlobalReducer();
 
     useEffect(() => {
         const initializeUploadWidget = () => {
@@ -14,6 +15,32 @@ const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
                         if (!error && result && result.event === 'success') {
                             console.log('Upload successful:', result.info);
                             setPublicId(result.info.public_id);
+
+                            const uploadendPoint = `${import.meta.env.VITE_BACKEND_URL}api/profile-images`;
+                            fetch(uploadendPoint, {
+                                method: 'POST',
+                                headers: {
+
+                                    'Content-Type': 'application/json',
+                                    "Authorization": `Bearer ${store.token}`,
+                                },
+                                body: JSON.stringify({
+                                    public_id: result.info.public_id,
+                                    image_url: result.info.secure_url,
+                                }),
+                            })
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json();
+                                })
+                                .then((data) => {
+                                    console.log('Image uploaded successfully:', data);
+                                })
+                                .catch((error) => {
+                                    console.error('Error uploading image:', error);
+                                });
                         }
                     }
                 );
