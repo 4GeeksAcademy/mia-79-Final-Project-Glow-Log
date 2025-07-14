@@ -1,16 +1,9 @@
 export const initialStore=()=>{
   return{
     message: null,
-    products: [
-      {
-        id: 1,
-        name: "Name",
-        brand: "Brand",
-        category: "Category",
-        expiration_date: "Expiration Date",
-        opened_date: "Opened Date"
-      }
-    ]
+    products: [],
+    brands: [],
+    types: [],
   }
 }
 
@@ -41,6 +34,21 @@ export default function storeReducer(store, action = {}) {
         ...store,
         products: [...store.products, newProduct]
       };
+
+    // case "delete_product" = async (productId) => {
+    //   try {
+    //     await fetch(`https://psychic-yodel-r46jvg6vg4q4c5wqj-3001.app.github.dev/${productId}`, {
+    //         method: "DELETE",
+    //     });
+    //     setProduct(products.filter((product) => productID !== product.id ));
+    //     console.log(products with ID ${productId} deleted);
+    //  } catch (error) {
+    //     console.error("Error deleting product:", error);
+    // }
+    // return {
+    //   ...store, 
+
+    // }
     case "delete_product":
       const newProducts = store.products.filter(product => product.id !== action.payload);
       return {

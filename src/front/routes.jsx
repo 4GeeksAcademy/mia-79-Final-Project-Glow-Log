@@ -13,6 +13,7 @@ import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { ProductLog } from "./pages/ProductLog";
 import { Profile } from "./pages/Profile";
+import EditProduct from "./pages/EditProduct"
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ export const router = createBrowserRouter(
       <Route path="/profile" element={<Profile />} />
              <Route path="/signup" element={<SignUp />} />
              <Route path="/AddProduct" element={<AddProduct />} />
+             <Route path="/EditProduct/:purchaseDetailID" element={<EditProduct />} />
     </Route>
   )
 );
