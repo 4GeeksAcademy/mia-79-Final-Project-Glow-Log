@@ -24,9 +24,20 @@ class Product(db.Model):
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     brand: Mapped[str] = mapped_column(String(120), nullable=False)
     type: Mapped[str] = mapped_column(String(120), nullable=False)
+    image_URL: Mapped[str] = mapped_column(String(512))
+    public_id: Mapped[str] = mapped_column(String(100))
     # listed_price: Mapped[float] = mapped_column(db.Numeric(precision=10,scale=2))
     # store: Mapped[str]=mapped_column(String(120))
     purchase_details: Mapped[list["PurchaseDetails"]] = relationship("PurchaseDetails", backref="product")
+
+    def save(self, new: Boolean = False):
+        if new:
+            db.session.add(self)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+
 
     def serialize(self):
         return {
@@ -34,6 +45,8 @@ class Product(db.Model):
             "name": self.name,
             "brand": self.brand, 
             "type": self.type,
+            "public_id": self.public_id,
+            "image_URL": self.image_URL
             # "listed_price": self.listed_price,
             # "store": self.store, 
         }

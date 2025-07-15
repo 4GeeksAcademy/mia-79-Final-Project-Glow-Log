@@ -10,7 +10,6 @@ from api.models import db, User, Product, PurchaseDetails
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -41,6 +40,8 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
+with app.app_context():
+    from api.populate_products import populate_products
 
 
 @app.errorhandler(APIException)
@@ -55,6 +56,7 @@ def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
