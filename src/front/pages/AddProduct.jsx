@@ -46,11 +46,14 @@ export default function AddProduct() {
   const [purchasePriceDisplay, setPurchasePriceDisplay] = useState(""); // formatted string
 
   const [categories, setCategories] = useState([
-    "Make Up",
-    "SunScreen",
-    "Fragance",
+    "Sunscreen",
+    "Face Wash",
+    "Moisturizer",
+    "Makeup Remover",
+    "Eyeliner",
+
   ]);
-  const [brands, setBrands] = useState(["Brand A", "Brand B"]);
+  const [brands, setBrands] = useState(["Neutrogena", "CeraVe", "Nyx", "Clinique", "e.l.f"]);
 
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
