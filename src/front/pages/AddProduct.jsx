@@ -35,7 +35,7 @@ export default function AddProduct() {
     // context: { alt: 'user_uploaded' },
     // clientAllowedFormats: ['images'],
     // maxImageFileSize: 2000000,
-    // maxImageWidth: 2000,
+    maxImageWidth: 2000,
     // theme: 'purple',
   };
 
@@ -185,7 +185,7 @@ export default function AddProduct() {
             onChange={handlePhotoUpload}
             className="d-none"
           />
-          <button
+          {/* <button
             type="button"
             onClick={() => document.getElementById("photo-upload").click()}
             className="btn btn-dark btn-sm rounded-circle position-absolute"
@@ -200,7 +200,15 @@ export default function AddProduct() {
             }}
           >
             +
-          </button>
+          </button> */}
+          <div className="mt-4 text-center">
+            <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
+            {publicId && (
+              <div className="mt-2">
+                <AdvancedImage cldImg={cld.image(publicId)} />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* PRODUCT NAME & PRICE */}
@@ -377,14 +385,7 @@ export default function AddProduct() {
         </div>
       </form>
       {/* Cloudinary Upload Widget  */}
-      <div className="mt-4 text-center">
-        <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
-        {publicId && (
-          <div className="mt-2">
-            <AdvancedImage cldImg={cld.image(publicId)} />
-          </div>
-        )}
-      </div>
+
       {/* End Cloudinary Upload Widget */}
     </div>
   );
