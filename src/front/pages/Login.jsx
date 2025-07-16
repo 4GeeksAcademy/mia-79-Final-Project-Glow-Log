@@ -23,7 +23,7 @@ const Login = () => {
             };
 
             const response = await fetch(
-                `https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github.dev/api/user/login`,
+                `${import.meta.env.VITE_BACKEND_URL}api/users/login`,
                 {
                     method: "POST",
                     body: JSON.stringify(requestBody),
@@ -39,6 +39,7 @@ const Login = () => {
                 throw new Error(data?.message || `Login failed. Status: ${response.status}`);
             }
 
+            localStorage.setItem("token", data.token);
             // Assume token/session handling happens here
             setEmail("");
             setPassword("");
