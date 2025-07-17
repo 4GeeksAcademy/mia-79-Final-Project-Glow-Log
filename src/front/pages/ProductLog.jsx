@@ -10,7 +10,7 @@ export const ProductLog = () => {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/purchase-details`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        "Authorization": `Bearer ${store.token}`
       }
     });
     if (!response.ok) {
@@ -26,7 +26,7 @@ export const ProductLog = () => {
       {
         method: "DELETE", headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          "Authorization": `Bearer ${store.token}`
         }
       }
     );
@@ -39,8 +39,12 @@ export const ProductLog = () => {
     return
   }
   useEffect(() => {
-    getProducts()
-  }, [])
+    // this next line redirects the user to signup if there it no 
+    // token in the store; use this on the use effect of pages that
+    // should only be available for logged in users.
+    if (!store.token) return navigate("/signup");
+    getProducts();
+  }, [store.token])
 
 
   return (

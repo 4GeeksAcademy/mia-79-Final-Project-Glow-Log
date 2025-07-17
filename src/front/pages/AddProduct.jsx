@@ -3,10 +3,12 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 import UploadWidget from "../components/UploadWidget";
 import glowlogLogo from "../assets/img/glowlog-logo.png";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 const API_URL = `${import.meta.env.VITE_API_URL}api/purchase-details`;
 
 export default function AddProduct() {
+  const { store, dispatch } = useGlobalReducer();
   // Cloudinary state
   const [publicId, setPublicId] = useState('');
 
@@ -89,7 +91,7 @@ export default function AddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = store.token;
     if (!token) {
       alert("You must be logged in to add products.");
       return;
