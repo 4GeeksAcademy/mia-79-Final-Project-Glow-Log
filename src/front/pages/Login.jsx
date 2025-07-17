@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import glowlogLogo from "../assets/img/glowlog-logo.png";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 const Login = () => {
+
+    const { store, dispatch } = useGlobalReducer();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async (event) => {
-        event.preventDefault();
+        // event.preventDefault();
 
         try {
             if (email === "" || password === "") {
@@ -38,8 +41,10 @@ const Login = () => {
             if (!response.ok) {
                 throw new Error(data?.message || `Login failed. Status: ${response.status}`);
             }
-
-            localStorage.setItem("token", data.token);
+            dispatch({
+                type: "authenticate",
+                payload: data
+            });
             // Assume token/session handling happens here
             setEmail("");
             setPassword("");
@@ -117,7 +122,8 @@ const Login = () => {
                     </div>
 
                     <button
-                        type="submit"
+                        type="button"
+                        onClick={handleLogin}
                         className="btn w-100"
                         style={{ backgroundColor: "#5F7141", color: "white" }}
                     >

@@ -5,14 +5,15 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product, PurchaseDetails
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-import os, datetime, jwt
+import os
+import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
-CORS(api)
+
 
 FLASK_APP_KEY = os.getenv("FLASK_APP_KEY")
 
@@ -27,9 +28,12 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-@api.route('/users/<int:user_id>/purchase_details', methods=["GET"])
-def get_user_purchase_details(user_id):
-    user = User.query.filter_by(id = user_id).first()
+@api.route('/purchase-details', methods=["GET"])
+@jwt_required()
+def get_user_purchase_details():
+    print("here")
+    user_id = int(get_jwt_identity())
+    user = User.query.filter_by(id=user_id).first()
     if user is None:
         raise APIException("User not found", 404)
     return jsonify(user.serialize())
@@ -52,16 +56,18 @@ def add_user():
     user = User.query.filter_by(email=request_body['email']).one_or_none()
     if user is not None:
         return "Email already used", 400
+    password_hash = generate_password_hash(request_body["password"])
     user = User(
         email=request_body['email'],
-        password=request_body['password']
+        password=password_hash
     )
     db.session.add(user)
     db.session.commit()
     return jsonify(user.serialize()), 201
 
 
-@api.route('/users/<int:user_id>/profile', methods=['GET'])
+@api.route('/profile', methods=['GET'])
+@jwt_required()
 def get_user(user_id):
     user = User.query.get(user_id)
     if user is None:
@@ -69,7 +75,8 @@ def get_user(user_id):
     return jsonify(user.serialize()), 200
 
 
-@api.route('/users/<int:user_id>/profile', methods=['DELETE'])
+@api.route('/profile', methods=['DELETE'])
+@jwt_required()
 def delete_profile(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -82,19 +89,23 @@ def delete_profile(user_id):
     # db.session.delete(user_id)
     # db.session.commit()
     # return jsonify({"MSG": "Profile deleted"}), 200
-@api.route('/users/<int:user_id>/purchase_details/<int:purchase_id>', methods=['DELETE'])
+
+
+@api.route('/purchase-details/<int:purchase_id>', methods=['DELETE'])
+@jwt_required()
 def delete_purchase(user_id, purchase_id):
-    purchase = PurchaseDetails.query.filter_by(user_id = user_id, id = purchase_id).first()
-    if not purchase: 
+    purchase = PurchaseDetails.query.filter_by(
+        user_id=user_id, id=purchase_id).first()
+    if not purchase:
         return jsonify({"error": "Purchase not found"}), 404
     db.session.delete(purchase)
     db.session.commit()
     return jsonify({"message": "Purchase deleted"}), 200
 
 
-
-@api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
-def add_product(user_id):
+@api.route('/purchase-details', methods=["POST"])
+def add_product():
+    user_id = int(get_jwt_identity())
     request_body = request.json
     product = Product.query.filter_by(
         name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
@@ -142,16 +153,16 @@ def login():
     print("User found:", user)
 
     if not user or not check_password_hash(user.password, data['password']):
-        return jsonify(status="error", message="invalid email or password")
+        return jsonify(status="error", message="invalid email or password"), 400
 
     print("User authenticated successfully")
 
-    payload = {
-        'user_id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
-    }
+    # payload = {
+    #     'user_id': user.id,
+    #     'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
+    # }
 
-    token = jwt.encode(payload, FLASK_APP_KEY, algorithm='HS256')
+    token = create_access_token(identity=str(user.id))
 
     print("Token created:", token)
 
@@ -167,7 +178,7 @@ def login():
 def upload_profile_image():
 
     # get the user
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     # if no user retrurn 404
     if not user_id:
         return 404

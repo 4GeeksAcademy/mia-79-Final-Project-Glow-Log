@@ -22,7 +22,7 @@ const SignUp = () => {
             };
 
             const response = await fetch(
-                `https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github.dev/api/users`,
+                `${import.meta.env.VITE_BACKEND_URL}api/users`,
                 {
                     method: "POST",
                     body: JSON.stringify(requestBody),
