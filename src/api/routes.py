@@ -27,8 +27,10 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-@api.route('/users/<int:user_id>/purchase_details', methods=["GET"])
-def get_user_purchase_details(user_id):
+@api.route('/purchase-details', methods=["GET"])
+@jwt_required()
+def get_user_purchase_details():
+    user_id = get_jwt_identity()
     user = User.query.filter_by(id = user_id).first()
     if user is None:
         raise APIException("User not found", 404)
@@ -61,7 +63,8 @@ def add_user():
     return jsonify(user.serialize()), 201
 
 
-@api.route('/users/<int:user_id>/profile', methods=['GET'])
+@api.route('/profile', methods=['GET'])
+@jwt_required()
 def get_user(user_id):
     user = User.query.get(user_id)
     if user is None:
@@ -69,7 +72,8 @@ def get_user(user_id):
     return jsonify(user.serialize()), 200
 
 
-@api.route('/users/<int:user_id>/profile', methods=['DELETE'])
+@api.route('/profile', methods=['DELETE'])
+@jwt_required()
 def delete_profile(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -82,7 +86,8 @@ def delete_profile(user_id):
     # db.session.delete(user_id)
     # db.session.commit()
     # return jsonify({"MSG": "Profile deleted"}), 200
-@api.route('/users/<int:user_id>/purchase_details/<int:purchase_id>', methods=['DELETE'])
+@api.route('/purchase-details/<int:purchase_id>', methods=['DELETE'])
+@jwt_required()
 def delete_purchase(user_id, purchase_id):
     purchase = PurchaseDetails.query.filter_by(user_id = user_id, id = purchase_id).first()
     if not purchase: 
@@ -93,8 +98,9 @@ def delete_purchase(user_id, purchase_id):
 
 
 
-@api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
-def add_product(user_id):
+@api.route('/purchase-details', methods=["POST"])
+def add_product():
+    user_id = get_jwt_identity()
     request_body = request.json
     product = Product.query.filter_by(
         name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()

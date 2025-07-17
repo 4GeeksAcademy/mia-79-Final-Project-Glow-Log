@@ -56,7 +56,7 @@ export default function EditProduct() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
         if (!token) {
             alert("You must be logged in to add products.");
             return;

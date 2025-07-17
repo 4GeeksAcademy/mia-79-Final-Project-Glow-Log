@@ -7,18 +7,28 @@ export const ProductLog = () => {
   const { store, dispatch } = useGlobalReducer();
   const navigate = useNavigate();
   const getProducts = async () => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/users/2/purchase_details`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/purchase-details`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    });
     if (!response.ok) {
       console.error("could not retrieve purchase details")
       return
     }
     const data = await response.json();
-    dispatch({ type: "set_product", payload: data.purchase_details })
+    dispatch({ type: "set_product", payload: data.purchase - details })
     return data
   }
   const deleteProduct = async (id) => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/users/2/purchase_details/${id}`, 
-      {method: "DELETE"}
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/purchase-details/${id}`,
+      {
+        method: "DELETE", headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
     );
     if (!response.ok) {
       console.error("could not delete product")

@@ -4,7 +4,7 @@ import { AdvancedImage } from '@cloudinary/react';
 import UploadWidget from "../components/UploadWidget";
 import glowlogLogo from "../assets/img/glowlog-logo.png";
 
-const API_URL = "https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github.dev/";
+const API_URL = `${import.meta.env.VITE_API_URL}api/purchase-details`;
 
 export default function AddProduct() {
   // Cloudinary state
@@ -89,7 +89,7 @@ export default function AddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) {
       alert("You must be logged in to add products.");
       return;
