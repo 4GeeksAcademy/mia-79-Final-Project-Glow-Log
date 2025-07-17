@@ -1,84 +1,88 @@
 import React, { useEffect } from "react";
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const ProductLog = () => {
   const { store, dispatch } = useGlobalReducer();
+  const navigate = useNavigate();
+  const getProducts = async () => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/users/2/purchase_details`);
+    if (!response.ok) {
+      console.error("could not retrieve purchase details")
+      return
+    }
+    const data = await response.json();
+    dispatch({ type: "set_product", payload: data.purchase_details })
+    return data
+  }
+  const deleteProduct = async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/users/2/purchase_details/${id}`, 
+      {method: "DELETE"}
+    );
+    if (!response.ok) {
+      console.error("could not delete product")
+      return
+    }
+    console.log("delete successful")
+    getProducts()
+    return
+  }
+  useEffect(() => {
+    getProducts()
+  }, [])
 
-  // const loadMessage = async () => {
-  //   try {
-  //     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-  //     if (!backendUrl)
-  //       throw new Error("VITE_BACKEND_URL is not defined in .env file");
-
-  //     const response = await fetch(backendUrl + "/api/hello");
-  //     const data = await response.json();
-
-  //     if (response.ok) dispatch({ type: "set_hello", payload: data.message });
-
-  //     return data;
-  //   } catch (error) {
-  //     if (error.message)
-  //       throw new Error(
-  //         `Could not fetch the message from the backend.
-  //               Please check if the backend is running and the backend port is public.`
-  //       );
-  //   }
-  // };
-
-    useEffect(() => {
-    //Step 1: Get the list of characters (name + uid)
-      fetch("`${store.CHARACTER_URL}`")
-        .then((res) => res.json())
-        .then(async (data) => {
-          //Step 2: Fetch full details for each character by uid
-          const promises = data.results.map((char) =>
-            fetch(`${store.CHARACTER_URL}/${char.uid}`).then((res) => res.json())
-          );
-          const detailedCharacters = await Promise.all(promises);
-          const charactersWithUID = detailedCharacters.map((char, index) => ({
-            ...char.result.properties,
-            uid: data.results[index].uid,
-          }));
-          dispatch({ type: "SET_CHARACTERS", payload: charactersWithUID });
-        });
-   }, []);
 
   return (
     <div className="text-center" style={{ backgroundColor: 'rgb(221, 230, 196)' }}>
       <div className="d-flex justify-content-between p-4">
-        <div className="d-flex justify-content-start"> 
+        <div className="d-flex justify-content-start">
           <h6 className="m-2">Filter</h6>
-          <h6 className= "m-2">Sort</h6>
-          </div>
+          <h6 className="m-2">Sort</h6>
+        </div>
         <div>
-        <Link className="nav-link" to="/addProduct">Add Product</Link>
+          <Link className="nav-link" to="/addProduct">Add Product</Link>
         </div>
       </div>
       <ul className="list-group m-2">
-        {store.products.map((product) => {
+        {store.products.map((purchase_detail) => {
           return (
             <li
               className="list-group-item d-flex justify-content-between align-items-center position-relative"
               style={{ backgroundColor: 'rgb(157, 175, 122)' }}
+              key={purchase_detail.id}
             >
               <img src="https://placehold.co/200x200" className="rounded-circle" />
               <div className="container">
-                <h5 className="text-start">{product.name}</h5>
+                <h5 className="text-start">{purchase_detail.product.name}</h5>
                 <p className="text-start">
-                  {product.brand}
+                  {purchase_detail.product.brand}
                 </p>
                 <p className="text-start">
-                  {product.category}
+                  {purchase_detail.product.type}
                 </p>
                 <p className="text-start">
-                  {product.expiration_date}
+                  {purchase_detail.expiration_date}
                 </p>
                 <p className="text-start">
-                  {product.opened_date}
+                  {purchase_detail.purchase_date}
                 </p>
+              </div>
+              <div className="d-flex">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={(event) => navigate(`/EditProduct/${purchase_detail.id}`)}
+                >
+                  <i className="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => deleteProduct(purchase_detail.id)}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </button>
               </div>
             </li>
           )

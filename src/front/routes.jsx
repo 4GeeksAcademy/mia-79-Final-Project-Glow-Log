@@ -13,6 +13,7 @@ import { Demo } from "./pages/Demo";
 import { ProductLog } from "./pages/ProductLog";
 import { Profile } from "./pages/Profile";
 import  Login  from "./pages/Login";
+import EditProduct from "./pages/EditProduct"
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +35,7 @@ export const router = createBrowserRouter(
              <Route path="/signup" element={<SignUp />} />
              <Route path="/login" element={<Login />} />
              <Route path="/AddProduct" element={<AddProduct />} />
-
+             <Route path="/EditProduct/:purchaseDetailID" element={<EditProduct />} />
     </Route>
   )
 );

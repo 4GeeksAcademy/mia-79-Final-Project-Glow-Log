@@ -7,7 +7,8 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import os, datetime, jwt
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, JWTManager
+from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
+
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
@@ -28,7 +29,7 @@ def handle_hello():
 
 @api.route('/users/<int:user_id>/purchase_details', methods=["GET"])
 def get_user_purchase_details(user_id):
-    user = User.get(user_id)
+    user = User.query.filter_by(id = user_id).first()
     if user is None:
         raise APIException("User not found", 404)
     return jsonify(user.serialize())
@@ -53,7 +54,7 @@ def add_user():
         return "Email already used", 400
     user = User(
         email=request_body['email'],
-        password=generate_password_hash(request_body['password'])
+        password=request_body['password']
     )
     db.session.add(user)
     db.session.commit()
@@ -81,6 +82,15 @@ def delete_profile(user_id):
     # db.session.delete(user_id)
     # db.session.commit()
     # return jsonify({"MSG": "Profile deleted"}), 200
+@api.route('/users/<int:user_id>/purchase_details/<int:purchase_id>', methods=['DELETE'])
+def delete_purchase(user_id, purchase_id):
+    purchase = PurchaseDetails.query.filter_by(user_id = user_id, id = purchase_id).first()
+    if not purchase: 
+        return jsonify({"error": "Purchase not found"}), 404
+    db.session.delete(purchase)
+    db.session.commit()
+    return jsonify({"message": "Purchase deleted"}), 200
+
 
 
 @api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
@@ -149,3 +159,32 @@ def login():
         "token": token,
         "user": user.serialize()
     }), 200
+#  Image upload endpoint
+
+
+@api.route("/profile-images", methods=["POST"])
+@jwt_required()
+def upload_profile_image():
+
+    # get the user
+    user_id = get_jwt_identity()
+    # if no user retrurn 404
+    if not user_id:
+        return 404
+    # if user get the profile
+    profile = User.find_by_id(user_id)
+    # get the url from the request body
+    request_body = request.json
+    image_url = request_body.get('image_url')
+    public_id = request_body.get('public_id')
+    # update the imgage url and the public id profile
+    if not image_url or not public_id:
+        return jsonify({"error": "Image URL and public ID are required"}), 400
+    profile.image_url = image_url
+    profile.public_id = public_id
+    # add the profile to the db session
+    db.session.add(profile)
+    # commit the changes to the db
+    db.session.commit()
+    # return jsonify( profile.serialize)
+    return jsonify({"message": "Profile image uploaded successfully", "profile": profile.serialize()}), 200

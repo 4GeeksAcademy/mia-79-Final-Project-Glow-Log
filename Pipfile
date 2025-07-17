@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-swagger = "*"
@@ -20,6 +19,7 @@ typing-extensions = "*"
 wtforms = "==3.1.2"
 sqlalchemy = "*"
 flask-jwt-extended = "*"
+flask = "*"
 
 [requires]
 python_version = "3.13"
@@ -32,5 +32,6 @@ local="heroku local"
 upgrade="flask db upgrade"
 downgrade="flask db downgrade"
 insert-test-data="flask insert-test-data"
+populate-products="flask populate-products"
 reset_db="bash ./docs/assets/reset_migrations.bash"
 deploy="echo 'Please follow this 3 steps to deploy: https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/README.md#deploy-your-website-to-heroku' "

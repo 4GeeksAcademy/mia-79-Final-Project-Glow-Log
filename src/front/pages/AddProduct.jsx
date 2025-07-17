@@ -1,20 +1,59 @@
 import React, { useState } from "react";
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage } from '@cloudinary/react';
+import UploadWidget from "../components/UploadWidget";
 import glowlogLogo from "../assets/img/glowlog-logo.png";
 
 const API_URL = "https://improved-space-system-v6r4wr67wx44hp9gx-3001.app.github.dev/";
 
 export default function AddProduct() {
+  // Cloudinary state
+  const [publicId, setPublicId] = useState('');
+
+  //Cloudinary Configuration
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+  // Cloudinary configuration
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName,
+    },
+  });
+
+  // Upload Widget Configuration
+  const uwConfig = {
+    cloudName,
+    uploadPreset,
+    // Uncomment and modify as needed:
+    // cropping: true,
+    // showAdvancedOptions: true,
+    // sources: ['local', 'url'],
+    // multiple: false,
+    // folder: 'user_images',
+    // tags: ['users', 'profile'],
+    // context: { alt: 'user_uploaded' },
+    // clientAllowedFormats: ['images'],
+    // maxImageFileSize: 2000000,
+    maxImageWidth: 2000,
+    // theme: 'purple',
+  };
+
+
   const [photo, setPhoto] = useState(null);
   const [productName, setProductName] = useState("");
   const [purchasePrice, setPurchasePrice] = useState(""); // numeric value
   const [purchasePriceDisplay, setPurchasePriceDisplay] = useState(""); // formatted string
 
   const [categories, setCategories] = useState([
-    "Make Up",
-    "SunScreen",
-    "Fragance",
+    "Sunscreen",
+    "Face Wash",
+    "Moisturizer",
+    "Makeup Remover",
+    "Eyeliner",
+
   ]);
-  const [brands, setBrands] = useState(["Brand A", "Brand B"]);
+  const [brands, setBrands] = useState(["Neutrogena", "CeraVe", "Nyx", "Clinique", "e.l.f"]);
 
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -146,7 +185,7 @@ export default function AddProduct() {
             onChange={handlePhotoUpload}
             className="d-none"
           />
-          <button
+          {/* <button
             type="button"
             onClick={() => document.getElementById("photo-upload").click()}
             className="btn btn-dark btn-sm rounded-circle position-absolute"
@@ -161,7 +200,15 @@ export default function AddProduct() {
             }}
           >
             +
-          </button>
+          </button> */}
+          <div className="mt-4 text-center">
+            <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
+            {publicId && (
+              <div className="mt-2">
+                <AdvancedImage cldImg={cld.image(publicId)} />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* PRODUCT NAME & PRICE */}
@@ -337,6 +384,9 @@ export default function AddProduct() {
           </button>
         </div>
       </form>
+      {/* Cloudinary Upload Widget  */}
+
+      {/* End Cloudinary Upload Widget */}
     </div>
   );
 }
