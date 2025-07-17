@@ -5,12 +5,16 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product, PurchaseDetails
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import jwt_required, get_jwt_identity
+import os, datetime, jwt
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
+
 
 api = Blueprint('api', __name__)
-
 # Allow CORS requests to this API
 CORS(api)
+
+FLASK_APP_KEY = os.getenv("FLASK_APP_KEY")
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -88,6 +92,7 @@ def delete_purchase(user_id, purchase_id):
     return jsonify({"message": "Purchase deleted"}), 200
 
 
+
 @api.route('/users/<int:user_id>/purchase_details', methods=["POST"])
 def add_product(user_id):
     request_body = request.json
@@ -116,6 +121,44 @@ def add_product(user_id):
     db.session.commit()
     return jsonify({"message": "product added"}), 201
 
+# TOKEN FOR LOGIN
+# Secret key for JWT (use env var in production)
+
+
+@api.route('/users/login', methods=['POST'])
+def login():
+    data = request.get_json()  # <-- Fix: call the method
+    print("Data received for login:", data)
+    if not data:
+        return jsonify({"message": "Missing JSON in request"}), 400
+
+    if 'email' not in data or 'password' not in data:
+        return jsonify({"message": "Missing email or password"}), 400
+
+    print("Data pass conditionals")
+
+    user = User.query.filter_by(email=data['email']).first()
+
+    print("User found:", user)
+
+    if not user or not check_password_hash(user.password, data['password']):
+        return jsonify(status="error", message="invalid email or password")
+
+    print("User authenticated successfully")
+
+    payload = {
+        'user_id': user.id,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
+    }
+
+    token = jwt.encode(payload, FLASK_APP_KEY, algorithm='HS256')
+
+    print("Token created:", token)
+
+    return jsonify({
+        "token": token,
+        "user": user.serialize()
+    }), 200
 #  Image upload endpoint
 
 

@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logoImageUrl from "../assets/img/glowlog-logo.png";
 
 export const Navbar = () => {
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		localStorage.removeItem("token");
+		navigate("/"); // or navigate("/login") if you have a login page
+	};
 
 	return (
 		<nav className="navbar p-2" style={{ backgroundColor: 'rgb(221, 230, 196)' }}>
@@ -12,10 +18,19 @@ export const Navbar = () => {
 				</Link>
 				<ul className="navbar-nav d-flex flex-row">
 					<li className="nav-item p-2">
-						<Link className="nav-link active" aria-current="page" to="/" style={{ color: 'rgb(67, 81, 40)' }}>Main Page</Link>
+						<Link className="nav-link active" to="/" style={{ color: 'rgb(67, 81, 40)' }}>Main Page</Link>
 					</li>
-					<li className="nav-item p-2" style={{ color: 'rgb(157, 175, 122)' }}>
-						<Link className="nav-link" to="/profile">Profile</Link>
+					<li className="nav-item p-2">
+						<Link className="nav-link" to="/profile" style={{ color: 'rgb(67, 81, 40)' }}>Profile</Link>
+					</li>
+					<li className="nav-item p-2">
+						<button
+							onClick={handleLogout}
+							className="btn btn-link nav-link"
+							style={{ color: 'rgb(67, 81, 40)', textDecoration: 'none' }}
+						>
+							Sign Out
+						</button>
 					</li>
 				</ul>
 			</div>

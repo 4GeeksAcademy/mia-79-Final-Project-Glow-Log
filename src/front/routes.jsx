@@ -8,11 +8,11 @@ import {
 } from "react-router-dom";
 import  AddProduct from "./pages/AddProduct";
 import { Layout } from "./pages/Layout";
-// import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { ProductLog } from "./pages/ProductLog";
 import { Profile } from "./pages/Profile";
+import  Login  from "./pages/Login";
 import EditProduct from "./pages/EditProduct"
 
 export const router = createBrowserRouter(
@@ -33,6 +33,7 @@ export const router = createBrowserRouter(
       <Route path="/demo" element={<Demo />} />
       <Route path="/profile" element={<Profile />} />
              <Route path="/signup" element={<SignUp />} />
+             <Route path="/login" element={<Login />} />
              <Route path="/AddProduct" element={<AddProduct />} />
              <Route path="/EditProduct/:purchaseDetailID" element={<EditProduct />} />
     </Route>
