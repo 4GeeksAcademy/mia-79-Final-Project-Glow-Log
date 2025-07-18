@@ -104,16 +104,18 @@ def delete_purchase(user_id, purchase_id):
 
 
 @api.route('/purchase-details', methods=["POST"])
+@jwt_required()
 def add_product():
     user_id = int(get_jwt_identity())
-    request_body = request.json
+    request_body = request.get_json()
+    print(request_body)
     product = Product.query.filter_by(
-        name=request_body['name'], brand=request_body['brand'], type=request_body['type']).first()
+        name=request_body['name'], brand=request_body['brand'], type=request_body['category']).first()
     if not product:
         product_details = Product(
             name=request_body['name'],
             brand=request_body['brand'],
-            type=request_body['type']
+            type=request_body['category']
         )
         db.session.add(product_details)
         db.session.commit()
@@ -123,10 +125,10 @@ def add_product():
     purchase_details = PurchaseDetails(
         product_id=product.id,
         user_id=user_id,
-        purchase_date=request_body['purchase_date'],
+        purchase_date=request_body['opened_date'],
         expiration_date=request_body['expiration_date'],
         price=request_body['price'],
-        store=request_body['store']
+        store="target"
     )
     db.session.add(purchase_details)
     db.session.commit()
