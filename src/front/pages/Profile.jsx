@@ -1,10 +1,12 @@
 import React, { useEffect } from "react"
 
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+	const navigate = useNavigate();
 	// Set Page Title
 	document.title = "Glow Log - Profile";
 
@@ -52,7 +54,12 @@ export const Profile = () => {
 							{/* BUTTONS  */}
 							<div className="button-wrap d-flex justify-content-center pb-3">
 								<button className="btn btn-primary" type="submit">Save</button>
-								<button className="ms-3 btn btn-outline-secondary" type="button">Exit</button>
+								<button
+									className="ms-3 btn btn-outline-secondary"
+									type="button"
+									onClick={() => navigate("/")}
+								>
+									Exit</button>
 							</div>
 						</form>
 					</div>

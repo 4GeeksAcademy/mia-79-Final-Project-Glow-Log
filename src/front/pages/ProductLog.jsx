@@ -18,7 +18,7 @@ export const ProductLog = () => {
       return
     }
     const data = await response.json();
-    dispatch({ type: "set_product", payload: data.purchase - details })
+    dispatch({ type: "set_purchase_details", payload: data })
     return data
   }
   const deleteProduct = async (id) => {
