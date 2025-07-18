@@ -36,7 +36,7 @@ def get_user_purchase_details():
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         raise APIException("User not found", 404)
-    return jsonify(user.serialize())
+    return jsonify([purchase.serialize() for purchase in user.purchase_details])
 
 
 @api.route('/users', methods=["GET"])
@@ -93,14 +93,15 @@ def delete_profile(user_id):
 
 @api.route('/purchase-details/<int:purchase_id>', methods=['DELETE'])
 @jwt_required()
-def delete_purchase(user_id, purchase_id):
+def delete_purchase(purchase_id):
+    user_id = int(get_jwt_identity())
     purchase = PurchaseDetails.query.filter_by(
         user_id=user_id, id=purchase_id).first()
     if not purchase:
         return jsonify({"error": "Purchase not found"}), 404
     db.session.delete(purchase)
     db.session.commit()
-    return jsonify({"message": "Purchase deleted"}), 200
+    return jsonify({"message": "Purchase deleted"}), 204
 
 
 @api.route('/purchase-details', methods=["POST"])
