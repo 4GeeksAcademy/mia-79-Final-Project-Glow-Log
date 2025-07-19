@@ -117,6 +117,7 @@ export default function EditProduct() {
                 setNewCategory("");
                 setAddingBrand(false);
                 setNewBrand("");
+                navigate("/"); // Navigate back to the product log or home page
             } else {
                 const errorData = await response.json();
                 alert(`Error: ${errorData.message}`);
