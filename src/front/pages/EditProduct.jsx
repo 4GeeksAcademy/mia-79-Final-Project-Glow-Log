@@ -3,7 +3,7 @@ import glowlogLogo from "../assets/img/glowlog-logo.png";
 import { useNavigate, useParams } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
-
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/purchase-details`;
 
 export default function EditProduct() {
     const { store, dispatch } = useGlobalReducer();
@@ -13,17 +13,19 @@ export default function EditProduct() {
     const [purchasePriceDisplay, setPurchasePriceDisplay] = useState(""); // formatted string
 
     const [categories, setCategories] = useState([
-        "Make Up",
-        "Sunscreen",
-        "Fragance",
+    "Sunscreen",
+    "Face Wash",
+    "Moisturizer",
+    "Makeup Remover",
+    "Eyeliner",
     ]);
-    const [brands, setBrands] = useState(["Brand A", "Brand B", "A Brand"]);
+    const [brands, setBrands] = useState(["Neutrogena", "CeraVe", "Nyx", "Clinique", "e.l.f"]);
 
     const [category, setCategory] = useState("");
     const [brand, setBrand] = useState("");
     const [purchaseDate, setPurchaseDate] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
-
+    const params = useParams();
     const [addingCategory, setAddingCategory] = useState(false);
     const [newCategory, setNewCategory] = useState("");
     const [addingBrand, setAddingBrand] = useState(false);
@@ -80,13 +82,13 @@ export default function EditProduct() {
             opened_date: purchaseDate,
             expiration_date: expirationDate,
             brand: finalBrand,
-            photo,
+            // photo,
             price: parseFloat(purchasePrice),
         };
 
         try {
-            const response = await fetch(API_URL, {
-                method: "POST",
+            const response = await fetch(API_URL + `/${params.purchaseDetailID}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -124,7 +126,7 @@ export default function EditProduct() {
             alert("Failed to submit product.");
         }
     };
-    const params = useParams();
+    
     function parseDate(date) {
         if (typeof date === "string") date = new Date(date);
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -343,7 +345,21 @@ export default function EditProduct() {
                     <button
                         type="button"
                         className="btn btn-outline-dark w-50 ms-1"
-                        onClick={(event) => navigate(`/`)}
+                        onClick={() => {
+                            setProductName("");
+                            setPurchasePrice("");
+                            setPurchasePriceDisplay("");
+                            setCategory("");
+                            setPurchaseDate("");
+                            setExpirationDate("");
+                            setBrand("");
+                            setPhoto(null);
+                            setAddingCategory(false);
+                            setNewCategory("");
+                            setAddingBrand(false);
+                            setNewBrand("");
+                            navigate("/"); // Navigate back to the product log or home page
+                        }}
                     >
                         Exit
                     </button>
