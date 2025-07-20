@@ -6,14 +6,15 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import  AddProduct from "./pages/AddProduct";
+import AddProduct from "./pages/AddProduct";
 import { Layout } from "./pages/Layout";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { ProductLog } from "./pages/ProductLog";
-import { Profile } from "./pages/Profile";
-import  Login  from "./pages/Login";
+import Profile from "./pages/Profile";
+import Login from "./pages/Login";
 import EditProduct from "./pages/EditProduct"
+
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,10 +33,11 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/profile" element={<Profile />} />
-             <Route path="/signup" element={<SignUp />} />
-             <Route path="/login" element={<Login />} />
-             <Route path="/AddProduct" element={<AddProduct />} />
-             <Route path="/EditProduct/:purchaseDetailID" element={<EditProduct />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/AddProduct" element={<AddProduct />} />
+      <Route path="/EditProduct/:purchaseDetailID" element={<EditProduct />} />
+
     </Route>
   )
 );
