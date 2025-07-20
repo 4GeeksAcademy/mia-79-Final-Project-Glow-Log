@@ -9,6 +9,7 @@ export default function Profile() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const token = store.token;
 
   useEffect(() => {
     document.title = "Glow Log - Profile";
@@ -18,8 +19,9 @@ export default function Profile() {
         const res = await fetch(API_URL, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${store.token}`,
+            "Content-Type": "application/json"
+          }
         });
 
         if (!res.ok) throw new Error("Failed to fetch profile");
@@ -41,10 +43,10 @@ export default function Profile() {
       const res = await fetch(API_URL, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${store.token}`,
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ name, password })
       });
 
       const data = await res.json();
@@ -62,8 +64,9 @@ export default function Profile() {
       const res = await fetch(API_URL, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${store.token}`,
+          "Content-Type": "application/json"
+        }
       });
 
       const data = await res.json();
