@@ -220,3 +220,35 @@ def upload_profile_image():
     db.session.commit()
     # return jsonify( profile.serialize)
     return jsonify({"message": "Profile image uploaded successfully", "profile": profile.serialize()}), 200
+
+
+@api.route('/profile/password', methods=['PUT'])
+@jwt_required()
+def update_password():
+    user_id = int(get_jwt_identity())
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.get_json()
+    current_password = data.get("currentPassword")
+    new_password = data.get("newPassword")
+    confirm_password = data.get("confirmNewPassword")
+
+    # Validate current password
+    if not check_password_hash(user.password, current_password):
+        return jsonify({"error": "Current password is incorrect."}), 401
+
+    # Check new passwords match
+    if new_password != confirm_password:
+        return jsonify({"error": "New passwords do not match."}), 400
+
+    # Check password strength (basic example)
+    if len(new_password) < 8:
+        return jsonify({"error": "Password must be at least 8 characters."}), 400
+
+    # / Hash and save new password
+    user.password = generate_password_hash(new_password)
+    db.session.commit()
+
+    return jsonify({"message": "Password updated successfully."}), 200

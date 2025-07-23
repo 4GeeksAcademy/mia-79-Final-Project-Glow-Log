@@ -6,10 +6,14 @@ const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/profile`;
 export default function Profile() {
   const { store, dispatch } = useGlobalReducer();
   const token = store.token
-
   const [name, setName] = useState(store.user.name)
   const [email, setEmail] = useState(store.user.email);
   const [password, setPassword] = useState("");
+  const [showPasswordUpdate, setShowPasswordUpdate] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
 
   useEffect(() => {
     document.title = "Glow Log - Profile";
@@ -75,6 +79,40 @@ export default function Profile() {
     }
   }
 
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmNewPassword) {
+      alert("New passwords do not match.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+          confirmNewPassword,
+        }),
+      });
+
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message);
+      alert("Password updated successfully!");
+      setShowPasswordUpdate(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    } catch (err) {
+      alert(err.message || "Failed to update password.");
+    }
+  };
+
+
 
   return (
     // todo: refactor css with css custom properties
@@ -99,11 +137,80 @@ export default function Profile() {
                 <input type="email" class="form-control" id="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
 
-              {/* PASSWORD Input */}
+
+              <div className="mb-3 d-flex align-items-center">
+                <div style={{ flexGrow: 1 }}>
+                  <label htmlFor="password" className="form-label">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    value="••••••••"
+                    disabled
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary ms-3"
+                  onClick={() => setShowPasswordUpdate(!showPasswordUpdate)}
+                >
+                  Update Password
+                </button>
+              </div>
+
+              {showPasswordUpdate && (
+                <form onSubmit={handlePasswordChange} className="mt-4">
+                  <h5>Change Password</h5>
+                  <div className="mb-3">
+                    <label className="form-label">Current Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">New Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Confirm New Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-warning">Save New Password</button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark ms-2"
+                    onClick={() => setShowPasswordUpdate(false)}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              )}
+
+
+              {/* PASSWORD Input
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">Password</label>
                 <input class="form-control" id="password" rows="3" />
-              </div>
+              </div> */}
 
               {/* PHOTO - BIO
 							<div className="mb-3">
