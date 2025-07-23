@@ -98,6 +98,13 @@ export default function storeReducer(store, action = {}) {
         user: undefined,
         token: undefined,
       };
+       case "update_user":
+      // payload: { user: updatedUser }
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      return {
+        ...store,
+        user: action.payload.user,
+      };
 
     default:
       throw Error("Unknown action.");
