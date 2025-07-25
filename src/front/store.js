@@ -35,7 +35,7 @@ export default function storeReducer(store, action = {}) {
         ),
       };
 
-    case "set_product":
+    case "set_purchase_details":
       const newStore = { ...store };
       newStore.products = action.payload;
       return newStore;

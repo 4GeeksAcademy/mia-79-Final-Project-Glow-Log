@@ -4,6 +4,7 @@ import { AdvancedImage } from '@cloudinary/react';
 import UploadWidget from "../components/UploadWidget";
 import glowlogLogo from "../assets/img/glowlog-logo.png";
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/purchase-details`;
 
@@ -11,6 +12,7 @@ export default function AddProduct() {
   const { store, dispatch } = useGlobalReducer();
   // Cloudinary state
   const [publicId, setPublicId] = useState('');
+  const navigate = useNavigate();
 
   //Cloudinary Configuration
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -380,6 +382,7 @@ export default function AddProduct() {
               setNewCategory("");
               setAddingBrand(false);
               setNewBrand("");
+              navigate("/"); // Navigate back to the product log or home page
             }}
           >
             Exit
