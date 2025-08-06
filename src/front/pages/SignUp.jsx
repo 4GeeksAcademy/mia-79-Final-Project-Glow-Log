@@ -11,9 +11,9 @@ const SignUp = () => {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form behavior
 
-        const { token, user } = await response.json();
-        dispatch({ type: "authenticate", payload: { token, user } });
-        navigate("/profile");
+        // const { token, user } = await response.json();
+        // dispatch({ type: "authenticate", payload: { token, user } });
+        // navigate("/profile");
 
         try {
             if (email === "" || password === "") {
