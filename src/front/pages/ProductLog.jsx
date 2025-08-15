@@ -67,7 +67,7 @@ export const ProductLog = () => {
               key={purchase_detail.id}
             >
               <div className=" product-photo rounded-circle">
-                <img src={purchase_detail.product.image_URL} className="rounded-circle product-photo" />
+              <img src={purchase_detail.product.image_URL} className="rounded-circle product-photo" />
               </div>
               <div className="container">
                 <h5 className="text-start">{purchase_detail.product.name}</h5>

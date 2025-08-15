@@ -210,7 +210,7 @@ export default function AddProduct() {
           <div className="mt-4 text-center">
             <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
             {publicId && (
-              <div className="mt-2">
+              <div className="mt-2 product-photo">
                 <AdvancedImage cldImg={cld.image(publicId)} />
               </div>
             )}
