@@ -119,6 +119,8 @@ export default function AddProduct() {
       brand: finalBrand,
       photo,
       price: parseFloat(purchasePrice),
+      image_url: store.imageInfo.image_url,
+      public_id: store.imageInfo.public_id
     };
 
     try {

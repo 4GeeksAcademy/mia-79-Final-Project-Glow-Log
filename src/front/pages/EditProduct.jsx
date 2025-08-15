@@ -13,11 +13,11 @@ export default function EditProduct() {
     const [purchasePriceDisplay, setPurchasePriceDisplay] = useState(""); // formatted string
 
     const [categories, setCategories] = useState([
-    "Sunscreen",
-    "Face Wash",
-    "Moisturizer",
-    "Makeup Remover",
-    "Eyeliner",
+        "Sunscreen",
+        "Face Wash",
+        "Moisturizer",
+        "Makeup Remover",
+        "Eyeliner",
     ]);
     const [brands, setBrands] = useState(["Neutrogena", "CeraVe", "Nyx", "Clinique", "e.l.f"]);
 
@@ -84,6 +84,8 @@ export default function EditProduct() {
             brand: finalBrand,
             // photo,
             price: parseFloat(purchasePrice),
+            // image_URL: store.imageInfo.image_url,
+            // public_id: store.imageInfo.public_id
         };
 
         try {
@@ -126,7 +128,7 @@ export default function EditProduct() {
             alert("Failed to submit product.");
         }
     };
-    
+
     function parseDate(date) {
         if (typeof date === "string") date = new Date(date);
         const month = (date.getMonth() + 1).toString().padStart(2, '0');

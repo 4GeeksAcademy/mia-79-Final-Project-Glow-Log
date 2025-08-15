@@ -3,7 +3,7 @@ import useGlobalReducer from '../hooks/useGlobalReducer'
 const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
     const uploadWidgetRef = useRef(null);
     const uploadButtonRef = useRef(null);
-    const { store } = useGlobalReducer();
+    const { store, dispatch } = useGlobalReducer();
 
     useEffect(() => {
         const initializeUploadWidget = () => {
@@ -16,31 +16,33 @@ const CloudinaryUploadWidget = ({ uwConfig, setPublicId }) => {
                             console.log('Upload successful:', result.info);
                             setPublicId(result.info.public_id);
 
-                            const uploadendPoint = `${import.meta.env.VITE_BACKEND_URL}api/profile-images`;
-                            fetch(uploadendPoint, {
-                                method: 'POST',
-                                headers: {
+                            dispatch({ type: "set_imageInfo", payload: { public_id: result.info.public_id, image_url: result.info.url } })
 
-                                    'Content-Type': 'application/json',
-                                    "Authorization": `Bearer ${store.token}`,
-                                },
-                                body: JSON.stringify({
-                                    public_id: result.info.public_id,
-                                    image_url: result.info.secure_url,
-                                }),
-                            })
-                                .then((response) => {
-                                    if (!response.ok) {
-                                        throw new Error('Network response was not ok');
-                                    }
-                                    return response.json();
-                                })
-                                .then((data) => {
-                                    console.log('Image uploaded successfully:', data);
-                                })
-                                .catch((error) => {
-                                    console.error('Error uploading image:', error);
-                                });
+                            // const uploadendPoint = `${import.meta.env.VITE_BACKEND_URL}api/profile-images`;
+                            // fetch(uploadendPoint, {
+                            //     method: 'POST',
+                            //     headers: {
+
+                            //         'Content-Type': 'application/json',
+                            //         "Authorization": `Bearer ${store.token}`,
+                            //     },
+                            //     body: JSON.stringify({
+                            //         public_id: result.info.public_id,
+                            //         image_url: result.info.secure_url,
+                            //     }),
+                            // })
+                            //     .then((response) => {
+                            //         if (!response.ok) {
+                            //             throw new Error('Network response was not ok');
+                            //         }
+                            //         return response.json();
+                            //     })
+                            //     .then((data) => {
+                            //         console.log('Image uploaded successfully:', data);
+                            //     })
+                            //     .catch((error) => {
+                            //         console.error('Error uploading image:', error);
+                            //     });
                         }
                     }
                 );

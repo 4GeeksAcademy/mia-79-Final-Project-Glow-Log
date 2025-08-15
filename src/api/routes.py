@@ -141,6 +141,8 @@ def update_purchase(purchase_id):
     product.brand = purchase_data.get('brand', product.brand)
     product.type = purchase_data.get('category', product.type)
     product.name = purchase_data.get('name', product.name)
+    product.image_URL = purchase_data.get('image_URL', product.image_URL)
+    product.public_id = purchase_data.get('public_id', product.public_id)
 
     db.session.commit()
     return jsonify(purchase.serialize()), 200
@@ -158,7 +160,9 @@ def add_product():
         product_details = Product(
             name=request_body['name'],
             brand=request_body['brand'],
-            type=request_body['category']
+            type=request_body['category'],
+            # public_id=request_body['public_id'],
+            # image_URL=request_body['image_url']
         )
         db.session.add(product_details)
         db.session.commit()

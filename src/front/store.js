@@ -14,6 +14,7 @@ export const initialStore = () => {
     types: [],
     user: user,
     token: token,
+    imageInfo: {},
   };
 };
 
@@ -23,6 +24,11 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         message: action.payload,
+      };
+    case "set_imageInfo":
+      return {
+        ...store,
+        imageInfo: action.payload,
       };
 
     case "add_task":
@@ -98,7 +104,7 @@ export default function storeReducer(store, action = {}) {
         user: undefined,
         token: undefined,
       };
-       case "update_user":
+    case "update_user":
       // payload: { user: updatedUser }
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       return {
