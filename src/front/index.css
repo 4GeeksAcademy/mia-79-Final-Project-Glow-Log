@@ -43,6 +43,11 @@
   background-color: rgb(93, 108, 59);
 }
 
+.product-photo {
+  max-width: 25%;
+  height: auto;
+}
+
 
 
 

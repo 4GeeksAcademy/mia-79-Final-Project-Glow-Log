@@ -66,7 +66,9 @@ export const ProductLog = () => {
               style={{ backgroundColor: 'rgb(157, 175, 122)' }}
               key={purchase_detail.id}
             >
-              <img src={purchase_detail.product.image_URL} className="rounded-circle" />
+              <div className=" product-photo rounded-circle">
+                <img src={purchase_detail.product.image_URL} className="rounded-circle product-photo" />
+              </div>
               <div className="container">
                 <h5 className="text-start">{purchase_detail.product.name}</h5>
                 <p className="text-start">
