@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 import UploadWidget from "../components/UploadWidget";
@@ -68,6 +68,10 @@ export default function AddProduct() {
   const [newCategory, setNewCategory] = useState("");
   const [addingBrand, setAddingBrand] = useState(false);
   const [newBrand, setNewBrand] = useState("");
+
+  useEffect(() => {
+    dispatch({ type: "set_imageInfo", payload: {} })
+  }, [])
 
   const formatCurrency = (value) => {
     const num = parseFloat(value.replace(/[^0-9.]/g, ''));
@@ -177,12 +181,15 @@ export default function AddProduct() {
         {/* PHOTO UPLOAD */}
         <div className="text-center mb-3 position-relative">
           <label htmlFor="photo-upload" className="d-block">
+
+
             <img
-              src={photo ? photo : glowlogLogo}
+              src={store.imageInfo.image_url ? store.imageInfo.image_url : glowlogLogo}
               alt="Preview"
-              style={{ width: "3cm", height: "3cm", objectFit: "cover" }}
+              style={{ width: "3cm", height: "3cm", objectFit: "contain" }}
               className="border border-dark rounded-circle mb-2"
             />
+
           </label>
           <input
             id="photo-upload"
@@ -209,11 +216,11 @@ export default function AddProduct() {
           </button> */}
           <div className="mt-4 text-center">
             <UploadWidget className="gl-btn" uwConfig={uwConfig} setPublicId={setPublicId} />
-            {publicId && (
+            {/* {publicId && (
               <div className="mt-2 product-photo">
                 <AdvancedImage cldImg={cld.image(publicId)} />
               </div>
-            )}
+            )} */}
           </div>
         </div>
 

@@ -161,8 +161,8 @@ def add_product():
             name=request_body['name'],
             brand=request_body['brand'],
             type=request_body['category'],
-            # public_id=request_body['public_id'],
-            # image_URL=request_body['image_url']
+            public_id=request_body['public_id'],
+            image_URL=request_body['image_url']
         )
         db.session.add(product_details)
         db.session.commit()
